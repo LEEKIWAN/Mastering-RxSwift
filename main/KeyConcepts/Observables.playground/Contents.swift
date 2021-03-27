@@ -37,27 +37,18 @@ import RxSwift
 
 // 1번 이벤트는 emission 이라 표현하고 2, 3 은 notification이라 표현한다.
 
-let o1 = Observable<Int>.create { (observer) -> Disposable in
-    observer.on(.next(0))
-    observer.onNext(1)
-    observer.on(.completed)
-    
-    return Disposables.create()
-}
-
-o1.subscribe {
-    print($0)
-    
-    if let element = $0.element {
-        print(element)
-    }
+Observable<Int>.create { (observer) -> Disposable in
+   observer.on(.next(0))
+   observer.onNext(1)
+   
+   observer.onCompleted()
+   
+   return Disposables.create()
 }
 
 
 
-Observable.from([0, 1, 2, 3])
-
-
+Observable.from([1, 2, 3])
 
 
 
