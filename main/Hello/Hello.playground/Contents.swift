@@ -23,26 +23,30 @@
 import UIKit
 import RxSwift
 
+let disposeBag = DisposeBag()
+
+Observable.just("Hello World")
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
+
+// 반응형 프로그래밍 리엑티브 프로그래밍
 
 
+//var a = 1
+//var b = 2
+//
+//a + b
+
+let a = BehaviorSubject(value: 1)
+let b = BehaviorSubject(value: 2)
+
+Observable.combineLatest(a, b) { $0 + $1 }
+    .subscribe(onNext: {
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+a.onNext(12)
