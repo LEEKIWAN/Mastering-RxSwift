@@ -23,9 +23,9 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Alamofire
-import RxAlamofire
-import Action
+//import Alamofire
+//import RxAlamofire
+//import Action
 
 let url = "download url"
 

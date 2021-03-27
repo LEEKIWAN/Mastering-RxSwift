@@ -22,8 +22,8 @@
 
 import UIKit
 import RxSwift
-import NSObject_Rx
-import RxAlamofire
+//import NSObject_Rx
+//import RxAlamofire
 
 class RxAlamofireBasicPatternTableViewController: UIViewController {
    
@@ -35,14 +35,14 @@ class RxAlamofireBasicPatternTableViewController: UIViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
                  
-      list
-         .bind(to: listTableView.rx.items(cellIdentifier: "cell")) { row, element, cell in
-            cell.textLabel?.text = element.title
-            cell.detailTextLabel?.text = element.desc
-         }
-         .disposed(by: rx.disposeBag)
-      
-      fetchBookList()
+//      list
+//         .bind(to: listTableView.rx.items(cellIdentifier: "cell")) { row, element, cell in
+//            cell.textLabel?.text = element.title
+//            cell.detailTextLabel?.text = element.desc
+//         }
+//         .disposed(by: rx.disposeBag)
+//      
+//      fetchBookList()
    }
    
    func fetchBookList() {

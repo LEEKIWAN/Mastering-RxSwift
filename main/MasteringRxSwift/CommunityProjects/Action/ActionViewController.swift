@@ -23,8 +23,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Action
-import NSObject_Rx
+//import Action
+//import NSObject_Rx
 
 class ActionViewController: UIViewController {
    
@@ -37,8 +37,8 @@ class ActionViewController: UIViewController {
       super.viewDidLoad()
       
       
-      enabledSwitch.rx.value
-         .bind(to: runButton.rx.isEnabled)
-         .disposed(by: rx.disposeBag)
+//      enabledSwitch.rx.value
+//         .bind(to: runButton.rx.isEnabled)
+//         .disposed(by: rx.disposeBag)
    }
 }

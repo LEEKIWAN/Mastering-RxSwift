@@ -22,7 +22,7 @@
 
 import UIKit
 import RxSwift
-import RxAlamofire
+//import RxAlamofire
 
 class RxAlamofireValidationViewController: UIViewController {
    

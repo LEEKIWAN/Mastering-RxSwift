@@ -23,7 +23,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import RxGesture
+//import RxGesture
 
 class RxGestureViewController: UIViewController {
    
