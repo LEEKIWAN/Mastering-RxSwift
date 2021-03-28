@@ -27,18 +27,41 @@ import RxSwift
  # Observers
  */
 
-Observable<Int>.create { (observer) -> Disposable in
-   observer.on(.next(0))
-   observer.onNext(1)
-   
-   observer.onCompleted()
-   
-   return Disposables.create()
+
+// Observable은 이벤트를 만드는놈
+
+// Observer는 Observable을 바라보다가 Observer가 던져주는 이벤트를 쳐리 한다.
+
+// -- 바라보는 것을 구독한다.. 라고 표현 한다.
+
+//Observable 은 3가지 이벤트를 던져준다. 1. next 2. error 3. complete
+
+// 1번 이벤트는 emission 이라 표현하고 2, 3 은 notification이라 표현한다.
+
+// 에라나 컴플리트가 호출되면 옵저버블은 메모리에서 해제되고, 더이상 이벤트를 방출하지 않는다.
+
+
+let o1 = Observable<Int>.create { (observer) -> Disposable in
+    observer.on(.next(0))
+    observer.onNext(1)
+    observer.on(.completed)
+    
+    return Disposables.create()
+}
+
+o1.subscribe {
+    print($0)
+    
+    if let element = $0.element {
+        print(element)
+    }
 }
 
 
 
-Observable.from([1, 2, 3])
+
+Observable.from([0, 1, 2, 3])
+
 
 
 

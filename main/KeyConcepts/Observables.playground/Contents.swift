@@ -37,6 +37,8 @@ import RxSwift
 
 // 1번 이벤트는 emission 이라 표현하고 2, 3 은 notification이라 표현한다.
 
+// 에라나 컴플리트가 호출되면 옵저버블은 메모리에서 해제되고, 더이상 이벤트를 방출하지 않는다.
+
 Observable<Int>.create { (observer) -> Disposable in
    observer.on(.next(0))
    observer.onNext(1)

@@ -27,12 +27,29 @@ import RxSwift
  # Operators
  */
 
+// 옵저버블 상에서 동작하고 새로운 오저버블을 리턴한다.
+// 두개이상의 연산자를 쓸수있다.
+// 연산자 순서에따라서 결과가 달라질수있다.
+
+
 let bag = DisposeBag()
 
-Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
-   .subscribe { print($0) }
-   .disposed(by: bag)
+//Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
+//    .take(5)
+//    .filter({
+//        $0.isMultiple(of: 2)
+//    })
+//    .subscribe { print($0) }
+//    .disposed(by: bag)
 
+
+Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    .filter({
+        $0.isMultiple(of: 2)
+    })
+    .take(5)
+    .subscribe { print($0) }
+    .disposed(by: bag)
 
 
 
