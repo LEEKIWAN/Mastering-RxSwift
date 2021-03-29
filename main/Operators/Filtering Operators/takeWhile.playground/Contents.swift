@@ -27,7 +27,18 @@ import RxSwift
  # takeWhile
  */
 
+// take while 은 predicate 조건이 참일동안 이벤트를 방출 하고
+// false 가 떨어지면 onComplete or Error 이벤트만 방출한다.
+
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
+Observable.from(numbers)
+    .take(while: {
+        $0 < 5
+    })
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)

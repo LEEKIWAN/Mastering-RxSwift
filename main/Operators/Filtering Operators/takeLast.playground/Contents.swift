@@ -26,9 +26,34 @@ import RxSwift
 /*:
  # takeLast
  */
+// 파라미터 갯수만큼 마지막 이벤트만 버퍼에 저장해둔다. 넥스트 이벤트를 방출하기 전까지 버퍼에 저장해두고 방출하지 않는다.
+// onComplete가 호출되면 버퍼에 저장되엉있던 이벤트를 모두 방출한다음 onComplete가 방출된다.
+// error가 호출되면 버퍼에 있는 값도 방출안되고 error만 방출된다.
+
+
+enum MyError: Error {
+   case error
+}
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+let publish = PublishSubject<Int>()
 
 
+publish.takeLast(2)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
+
+
+numbers.forEach {
+    publish.onNext($0)
+}
+
+publish.onNext(11)
+
+publish.onCompleted()
+
+//publish.onError(MyError.error)

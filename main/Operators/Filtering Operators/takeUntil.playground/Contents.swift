@@ -26,7 +26,28 @@ import RxSwift
 /*:
  # takeUntil
  */
+// takeUntil은 파라미터를 ObservableType을 받는다.
+// 그리고 파라미터로 받은 Observable이 next를 방출하기 전까지 모든 이벤트를 take 한다.
+// 그리고 파라미터 Observable은 새로운 값을 방출하면 원 observable 은 onComplete 이벤트를 방출한다.
+
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+
+let publish = PublishSubject<Int>()
+let trigger = PublishSubject<Int>()
+
+
+publish.take(until: trigger)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
+
+publish.onNext(0)
+publish.onNext(1)
+
+trigger.onNext(100)
+
+publish.onNext(3)

@@ -26,8 +26,42 @@ import RxSwift
 /*:
  # single
  */
+// single 은 하나의 이벤트만 방출한다. 2개 이상일경우 error 를 방출
+
+// Subject로 이벤트를 처리할경우 onComplete 를 직접 처리해줘야 한다.
+
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+Observable.just(5)
+    .single()
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
+
+
+Observable.from(numbers)
+    .single {
+        $0 == 3
+    }
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
+
+
+let publish = PublishSubject<Int>()
+
+
+publish.single().subscribe {
+    print($0)
+}
+
+
+publish.onNext(2)
+publish.onNext(4)
 
 

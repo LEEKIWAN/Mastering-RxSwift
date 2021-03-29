@@ -27,7 +27,17 @@ import RxSwift
  # distinctUntilChanged
  */
 
+// 동일한 항목이 연속으로 방출하지 않도록 해주는 필터링
+// 이전 요소와 동인하다면 방출하지 않는다.
+
+
 let disposeBag = DisposeBag()
 let numbers = [1, 1, 3, 2, 2, 3, 1, 5, 5, 7, 7, 7]
 
 
+Observable.from(numbers)
+    .distinctUntilChanged()
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)

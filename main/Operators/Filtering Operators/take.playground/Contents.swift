@@ -26,12 +26,18 @@ import RxSwift
 /*:
  # take
  */
+// take 는 방출한 이벤트 갯수를 정하는것.
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
-
+Observable.from(numbers)
+    .take(5)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
 
 
 

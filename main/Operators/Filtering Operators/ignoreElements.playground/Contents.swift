@@ -27,14 +27,18 @@ import RxSwift
  # ignoreElements
  */
 
+// 넥스트 이벤트는 전부 무시하고, complete, error 이벤트만 방출한다.
+// 오로지 결과값 - 성공했나 실패했냐 궁금할때 쓰인다.
+
 let disposeBag = DisposeBag()
 let fruits = ["🍏", "🍎", "🍋", "🍓", "🍇"]
 
-
-
-
-
-
+Observable.from(fruits)
+    .ignoreElements()
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
 
 
 

@@ -26,12 +26,18 @@ import RxSwift
 /*:
  # elementAt
  */
+// 배열 처럼 인덱스 값으로 하나만 가져올때 쓰인다.
 
 let disposeBag = DisposeBag()
 let fruits = ["🍏", "🍎", "🍋", "🍓", "🍇"]
 
 
-
+Observable.from(fruits)
+    .element(at: 1)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
 
 
 

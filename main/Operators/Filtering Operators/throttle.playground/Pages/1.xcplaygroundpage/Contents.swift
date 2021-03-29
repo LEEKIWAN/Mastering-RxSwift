@@ -26,6 +26,10 @@ import RxSwift
 /*:
  # throttle
  */
+// 지정된 주기동안 하나의 이벤트를 구독자에게 전달한다.
+// 주로 짧은 Tap이벤트에 사용된다.
+
+// 파라미터인 latest 가 true 이면 정확한 시간에 방출한다.
 
 let disposeBag = DisposeBag()
 
@@ -50,7 +54,8 @@ let buttonTap = Observable<String>.create { observer in
 }
 
 
-buttonTap   
+buttonTap
+    .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
    .subscribe { print($0) }
    .disposed(by: disposeBag)
 

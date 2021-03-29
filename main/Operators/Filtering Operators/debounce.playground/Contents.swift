@@ -27,6 +27,14 @@ import RxSwift
  # debounce
  */
 
+
+// debounce 는 지정된 초 이내에 새로운 이벤트가 생기면, 타이머를 초기화하고 다시 이벤트를 기다린다.
+// 타이머를 시간동안 어떠한 이벤트가 없으면 최근에 발생한 이벤트를 방출한다.
+
+// 넥스트 이벤트가 전달된 다음. 지정된 시간이 이내 이벤트가 전달되지 않는다면, 마지막으로 방출된 이벤트를 구독자에게 전달한다.
+
+// 주로 검색기능에 사용된다.
+
 let disposeBag = DisposeBag()
 
 let buttonTap = Observable<String>.create { observer in
@@ -51,7 +59,12 @@ let buttonTap = Observable<String>.create { observer in
    }
 }
 
-buttonTap   
+//debounce 는 지정된 초 이내에 새로운 이벤트가 생기면, 타이머를 초기화하고 다시 이벤트를 기다린다.
+// 타이머를 시간동안 어떠한 이벤트가 없으면 최근에 발생한 이벤트를 방출한다.
+
+
+buttonTap
+    .debounce(.milliseconds(1000), scheduler: MainScheduler.instance)
    .subscribe { print($0) }
    .disposed(by: disposeBag)
 

@@ -30,6 +30,13 @@ import RxSwift
  ## latest parameter
  */
 
+
+// latest 변수 값에 따라서 결과가 달라진다.
+
+// default: true 이며, 정확한 시간 간격을 지킨다. 최근에 방출된 값을 구독자에게 전달한다.
+// no 일경우 시간 간격 이후 방출된 값을 구독자에가 전달하므로, 간격보다 더 늦게 넥스트 이벤트가 전달될수 있다.
+
+
 let disposeBag = DisposeBag()
 
 func currentTimeString() -> String {
@@ -39,12 +46,12 @@ func currentTimeString() -> String {
 }
 
 
-Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
-   .debug()
-   .take(10)
-   .throttle(.milliseconds(2500), latest: true, scheduler: MainScheduler.instance)
-   .subscribe { print(currentTimeString(), $0) }
-   .disposed(by: disposeBag)
+//Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+//   .debug()
+//   .take(10)
+//   .throttle(.milliseconds(2500), latest: true, scheduler: MainScheduler.instance)
+//   .subscribe { print(currentTimeString(), $0) }
+//   .disposed(by: disposeBag)
 
 
 Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)

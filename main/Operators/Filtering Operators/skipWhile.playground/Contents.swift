@@ -26,6 +26,18 @@ import RxSwift
 /*:
  # skipWhile
  */
+// skip while 은 참일동안 넥스트이벤트를 skip한다. false 되는 순간 검사안하고 모든요소를 방출한다.
+
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+Observable.from(numbers)
+    .skip(while: {
+        $0 < 5
+    })
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)

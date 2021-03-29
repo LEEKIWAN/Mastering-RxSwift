@@ -26,9 +26,16 @@ import RxSwift
 /*:
  # skip
  */
+// skip 은 int형을 파라미터로 받으며 int 수만큼 넥스트 이벤트를 무시한다.
+
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
-
+Observable.from(numbers)
+    .skip(3)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
