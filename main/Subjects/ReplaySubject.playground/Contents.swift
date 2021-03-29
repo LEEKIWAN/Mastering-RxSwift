@@ -28,10 +28,50 @@ import RxSwift
  # ReplaySubject
  */
 
+// Publish Subject 는 구독하기전 이벤트는 처리 하지 않는다.
+// Behavior Subject 는 구독한 시점에 단 하나의 이벤트를 처리 한다.
+
+// Replay Subject는 버퍼에 있는 이벤트를 구독한 시점에 한꺼번에 처리 한다.
+// 버퍼는 메모리에 저장되기때문에 필요 이상으로 만들면 안된다.
+
+// onCompelete or Error 이벤트를 전달되어도 버퍼에 있는 이벤트를 모두 처리한 후에 Complete eroror 이벤트를 처리한다.
+
+// 항상 버퍼에 있는 이벤트를 처리한다.
+
+
+
 let disposeBag = DisposeBag()
 
 enum MyError: Error {
    case error
 }
 
+let r = ReplaySubject<Int>.create(bufferSize: 3)
 
+(1 ... 10).forEach {
+    r.onNext($0)
+}
+
+r.subscribe {
+    print("Observable 1 >> " , $0)
+}
+
+
+r.subscribe {
+    print("Observable 2 >> " , $0)
+}
+
+r.onNext(11)
+
+
+
+r.subscribe {
+    print("Observable 3 >> " , $0)
+}
+
+//r.onCompleted()
+r.onError(MyError.error)
+
+r.subscribe {
+    print("Observable 4 >> " , $0)
+}

@@ -29,9 +29,51 @@ import RxSwift
  # BehaviorSubject
  */
 
+// BehaviorSubject는 초기 이벤트를 하나 가지고 있고, 구독하는 시점에 바로 초기이벤트를 전달해준다.
+
+// 구독하기전에 넥스트이벤트를 방출하면, 기존 초기이벤트가 대체 된다.
+
+// 그외에는 PublishSubject 와 똑같다.
+
+
+
 let disposeBag = DisposeBag()
 
 enum MyError: Error {
    case error
 }
 
+let p = PublishSubject<Int>()
+
+p.subscribe {
+    print("PublishSubejct >> ", $0)
+}
+.disposed(by: disposeBag)
+
+
+let b = BehaviorSubject<Int>(value: 4)
+
+b.onNext(10)
+
+b.subscribe {
+    print("BehaviorSubject >> ", $0)
+}
+.disposed(by: disposeBag)
+
+b.onNext(100)
+
+
+b.subscribe {
+    print("BehaviorSubject222 >> ", $0)
+}
+.disposed(by: disposeBag)
+
+
+//b.onCompleted()
+b.onError(MyError.error)
+
+
+b.subscribe {
+    print("BehaviorSubject333> ", $0)
+}
+.disposed(by: disposeBag)

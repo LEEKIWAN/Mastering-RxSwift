@@ -28,9 +28,34 @@ import RxCocoa
  # AsyncSubject
  */
 
+// complete 이벤트가 처리 되기 전까진 어떤 이벤트를 처리 하지 않는다.
+
+// complete 이벤트가 방출 되면 가장 최신이벤트 하나를 구독자로 전달해주고 바로 complete 이벤트가 처리된다.
+
+// error 이벤트는 최신이벤트 없이 바로 error 이벤트 하나만을 처리한다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
    case error
 }
+
+
+
+
+let subject = AsyncSubject<Int>()
+
+subject.subscribe {
+    print($0)
+}
+.disposed(by: bag)
+
+subject.onNext(1)
+subject.onNext(2)
+subject.onNext(3)
+
+//subject.onCompleted()
+
+subject.onError(MyError.error)
+
 
