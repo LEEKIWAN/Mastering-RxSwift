@@ -27,16 +27,32 @@ import RxSwift
  # deferred
  */
 
+// 특정 조건에 따라 새로운 옵저버블을 만드는 연산자
+
 let disposeBag = DisposeBag()
 let animals = ["🐶", "🐱", "🐹", "🐰", "🦊", "🐻", "🐯"]
 let fruits = ["🍎", "🍐", "🍋", "🍇", "🍈", "🍓", "🍑"]
 var flag = true
 
 
+let factory = Observable<String>.deferred {
+    flag.toggle()
+    
+    if flag {
+        return Observable.from(animals)
+    }
+    else {
+        return Observable.from(fruits)
+    }
+}
 
 
+factory.subscribe {
+    print($0)
+}
+.disposed(by: disposeBag)
 
-
-
-
-
+factory.subscribe {
+    print($0)
+}
+.disposed(by: disposeBag)

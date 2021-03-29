@@ -27,16 +27,38 @@ import RxSwift
  # create
  */
 
+
+// 방출하는 데이터를 직접 구현하고 싶다면 create 연산자를 쓴다.
+
+// Disposable을 리턴 해야하며, 옵저버블을 종료하기위해선 complete, error 이벤트를 반드시 방출해야한다.
+
+
 let disposeBag = DisposeBag()
 
 enum MyError: Error {
    case error
 }
 
-
-
-
-
-
-
-
+Observable<String>.create { (observer) -> Disposable in
+    
+    guard let url = URL(string: "https:/www.apple.com") else {
+        observer.onError(MyError.error)
+        return Disposables.create()
+    }
+    
+    guard let html = try? String(contentsOf: url, encoding: .utf8) else {
+        observer.onError(MyError.error)
+        return Disposables.create()
+    }
+    
+    observer.onNext(html)
+    observer.onCompleted()
+    
+    observer.onNext("After completed")
+    
+    return Disposables.create()
+}
+.subscribe {
+    print($0)
+}
+.disposed(by: disposeBag)

@@ -28,6 +28,37 @@ import RxCocoa
  # Relay
  */
 
+// Relay는 2가지 Publish Relay, Behavior Relay가 있다.
+// onComplete , Error 이벤트가 없다. 넥스트 이벤트만 있다.
+// 구독자가 Dispose 될때 까지 종료가 되지 안흔ㄴ다.
+// 그래서 주로 UI에서 쓰인다.
+
+// Relay 는 rxcoca 프레임워크다.
+
 let bag = DisposeBag()
 
+let publishReplay = PublishRelay<Int>()
 
+
+publishReplay.accept(3)
+
+publishReplay.subscribe {
+    print("1 : ", $0)
+}
+.disposed(by: bag)
+
+
+publishReplay.accept(3)
+
+let behaviorRelay = BehaviorRelay<Int>(value: 4)
+
+behaviorRelay.subscribe {
+    print("2 : ", $0)
+}
+.disposed(by: bag)
+
+behaviorRelay.accept(5)
+
+print(behaviorRelay.value)
+
+//BehaviroRelay 에는 value 속성이 있다. 마지막으로 전달된 이벤트가 저장되있다. 값을 바꾸고시픙면, accept를 호출하면 된다. 

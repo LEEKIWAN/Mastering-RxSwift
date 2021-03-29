@@ -26,6 +26,8 @@ import RxSwift
 /*:
  # from
  */
+// 배열로 전달되는 요소를 하나 씩 넥스트 이벤트를 전달하는 연산자
+// just는 단 하나 배열로 전달이 되어도 배열자체가 이벤트로 처리된다.
 
 let disposeBag = DisposeBag()
 let fruits = ["🍏", "🍎", "🍋", "🍓", "🍇"]

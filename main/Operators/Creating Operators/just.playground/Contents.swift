@@ -27,6 +27,10 @@ import RxSwift
  # just
  */
 
+
+
+// 하나의 넥스트 이벤트를 전달하는 연산자
+
 let disposeBag = DisposeBag()
 let element = "😀"
 
@@ -37,11 +41,6 @@ Observable.just(element)
 Observable.just([1, 2, 3])
    .subscribe { event in print(event) }
    .disposed(by: disposeBag)
-
-
-
-
-
 
 
 

@@ -27,6 +27,8 @@ import RxSwift
  # of
  */
 
+// 2개 이상의 넥스트 이벤트를 전달하는 연산자
+
 let disposeBag = DisposeBag()
 let apple = "🍏"
 let orange = "🍊"
@@ -39,12 +41,6 @@ Observable.of(apple, orange, kiwi)
 Observable.of([1, 2], [3, 4], [5, 6])
    .subscribe { element in print(element) }
    .disposed(by: disposeBag)
-
-
-
-
-
-
 
 
 

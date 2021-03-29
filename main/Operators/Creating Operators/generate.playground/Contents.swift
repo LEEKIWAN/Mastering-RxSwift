@@ -27,14 +27,37 @@ import RxSwift
  # generate
  */
 
+// range는 정수만을 방출하는 연산자인 반면 generate는 타입에 자유롭다.
+
 let disposeBag = DisposeBag()
 let red = "🔴"
 let blue = "🔵"
 
 
+// condition에 만족하지 않으면 바로 complete 을 방출하고 종료된다.
+// iterate는 방출할 값을 지정한다.
+
+Observable.generate(initialState: 0, condition: {
+    $0 <= 10
+}, iterate: {
+    $0 + 2
+})
+.subscribe {
+    print($0)
+}
+.disposed(by: disposeBag)
 
 
-
-
-
-
+Observable<String>.generate(initialState: red) {
+    $0.count < 15
+} iterate: {
+    if $0.count.isMultiple(of: 2) {
+        return $0 + red
+    }
+    else {
+        return $0 + blue
+    }
+}
+.subscribe {
+    print($0)
+}

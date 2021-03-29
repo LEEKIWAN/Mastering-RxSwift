@@ -27,13 +27,19 @@ import RxSwift
  # range
  */
 
+// range는 정수만을 방출하는 연산자이다.
+
+// 1부터 1씩 증가되는 값이 총 10개 방출된다.
+
+//증가되는 값 을 바꿀순 없다. 바꾸기윈해선 generate 연산자를 사용한다.
+
+
 let disposeBag = DisposeBag()
 
+
 Observable.range(start: 1, count: 10)
-   .subscribe { print($0) }
-   .disposed(by: disposeBag)
-
-
-
-
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
 

@@ -26,9 +26,20 @@ import RxSwift
 /*:
  # empty
  */
+// 어떠한 요소도 방출하지 않는다. 이벤트가 없다.
+// Complete 이벤트를 방출하고 바로 종료된다.
+
+// 보통 제네릭은 Void로 쓰인다. Void을 안스면 구독안되어진다.
+
+
 
 let disposeBag = DisposeBag()
 
+Observable<Void>.empty()
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
 
 
 
