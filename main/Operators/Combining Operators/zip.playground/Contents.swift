@@ -26,6 +26,7 @@ import RxSwift
 /*:
  # zip
  */
+// http://reactivex.io/documentation/operators/zip.html
 
 let bag = DisposeBag()
 
@@ -35,4 +36,34 @@ enum MyError: Error {
 
 let numbers = PublishSubject<Int>()
 let strings = PublishSubject<String>()
+
+
+Observable.zip(numbers, strings) { (number, string) -> String in
+    "\(number) \(string)"
+}
+.subscribe {
+    print($0)
+}
+.disposed(by: bag)
+
+
+numbers.onNext(0)
+strings.onNext("zero")
+
+
+numbers.onNext(1)
+
+numbers.onNext(2)
+
+strings.onNext("one")
+
+numbers.onError(MyError.error)
+
+//numbers.onCompleted()
+
+strings.onNext("two")
+
+//strings.onCompleted()
+
+
 

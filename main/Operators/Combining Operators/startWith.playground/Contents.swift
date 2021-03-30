@@ -27,7 +27,17 @@ import RxSwift
  # startWith
  */
 
+// 이벤트를 방출하기전에 startWith의 파라미터 값 이벤트를 항상 첫번째로 방출한다.
+// 2개 이상 쓸수있으며 마지막에 쓴 startWith 값이 맨 처음으로 방출된다.
+
 let bag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5]
 
+Observable.from(numbers)
+    .startWith(-1, 0)
+    .startWith(-2)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
 

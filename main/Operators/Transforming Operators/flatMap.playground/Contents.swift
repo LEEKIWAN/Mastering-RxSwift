@@ -65,3 +65,4 @@ b1.onCompleted()
 b2.onCompleted()
 
 subject.onCompleted()
+

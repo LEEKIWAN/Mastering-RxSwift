@@ -27,6 +27,9 @@ import RxSwift
  # combineLatest
  */
 
+// http://reactivex.io/documentation/operators/combinelatest.html
+
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -37,3 +40,26 @@ let greetings = PublishSubject<String>()
 let languages = PublishSubject<String>()
 
 
+Observable.combineLatest(greetings, languages) { (greet, language) -> String in
+    greet + " " + language
+}
+.subscribe {
+    print($0)
+}
+.disposed(by: bag)
+
+greetings.onNext("hi")
+languages.onNext("World")
+
+greetings.onNext("Hello")
+
+
+greetings.onError(MyError.error)
+
+languages.onNext("RxSwift")
+
+//greetings.onCompleted()
+
+languages.onNext("SwiftUI")
+
+//languages.onCompleted()

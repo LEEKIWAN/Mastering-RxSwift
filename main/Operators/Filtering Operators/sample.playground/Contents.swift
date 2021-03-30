@@ -28,3 +28,22 @@ import RxSwift
  */
 
 let disposeBag = DisposeBag()
+
+let words = ["Apple", "Banana", "Orange", "Book", "City", "Axe"]
+let words2 = ["1", "2", "3"]
+
+
+let t1 = Observable.from(words)
+let t2 = Observable.from(words2)
+
+
+
+Observable.of(t1, t2)
+    .flatMap {
+        $0.toArray()
+    }
+    .subscribe {
+        print($0)
+    }
+    
+    
