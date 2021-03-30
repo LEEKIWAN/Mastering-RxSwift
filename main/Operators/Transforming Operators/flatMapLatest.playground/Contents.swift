@@ -27,6 +27,8 @@ import RxSwift
  # flatMapLatest
  */
 
+// 가장 최근 추가된 자식 옵저버블 하나만 보며, 자식 옵저버블이 방출한 이벤트만 처리힌다.
+
 let disposeBag = DisposeBag()
 
 let a = BehaviorSubject(value: 1)
@@ -35,7 +37,28 @@ let b = BehaviorSubject(value: 2)
 let subject = PublishSubject<BehaviorSubject<Int>>()
 
 subject
-   .flatMap { $0.asObservable() }
+    .flatMapLatest { $0.asObservable() }
    .subscribe { print($0) }
    .disposed(by: disposeBag)
+
+
+
+subject.onNext(a)
+
+a.onNext(1)
+
+subject.onNext(b)
+
+b.onNext(22)
+a.onNext(11)
+
+subject.onNext(a)
+
+b.onNext(222)
+
+a.onNext(111)
+
+
+a.onCompleted()
+subject.onCompleted()
 

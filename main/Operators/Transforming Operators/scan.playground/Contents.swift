@@ -26,6 +26,17 @@ import RxSwift
 /*:
  # scan
  */
+// 작업결과를 누적시키면서 중간 결과와 최종결과가 필요할때 쓰인다.
+// reduce 와 비교해보자
 
 let disposeBag = DisposeBag()
 
+Observable.range(start: 1, count: 10)
+//    .scan(0, accumulator: +)
+    .scan(0, accumulator: {
+        $0 + $1
+    })
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)

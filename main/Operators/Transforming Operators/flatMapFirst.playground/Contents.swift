@@ -27,6 +27,12 @@ import RxSwift
  # flatMapFirst
  */
 
+// flapMap 은 자식을 추가하는 형식으로 자식이 방출하는 모든 이벤트를 하나의 부모에서 방출한다.
+
+// flapMapFirst는 맨처음으로 등록된 자식 옵저버블만 방출한다.
+
+// Complete 는 사용 없이 대기 한다.
+
 let disposeBag = DisposeBag()
 
 let a = BehaviorSubject(value: 1)
@@ -35,7 +41,7 @@ let b = BehaviorSubject(value: 2)
 let subject = PublishSubject<BehaviorSubject<Int>>()
 
 subject
-   .flatMap { $0.asObservable() }
+    .flatMapFirst { $0.asObservable() }
    .subscribe { print($0) }
    .disposed(by: disposeBag)
 
@@ -46,3 +52,7 @@ a.onNext(11)
 b.onNext(22)
 b.onNext(222)
 a.onNext(111)
+
+a.onCompleted()
+
+subject.onCompleted()

@@ -26,9 +26,22 @@ import RxSwift
 /*:
  # map
  */
+// map 은 파라미터로 클로져를 받는다.
+// 클로저를 실행하고 리턴되는 값을 이벤트로 방출한다. 이때 리턴되는 값은 타잎이 정해져있지않다.
+
 
 let disposeBag = DisposeBag()
 let skills = ["Swift", "SwiftUI", "RxSwift"]
 
 
-
+Observable.from(skills)
+//    .map({
+//        "Hello \($0)"
+//    })
+    .map({
+        $0.count
+    })
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)

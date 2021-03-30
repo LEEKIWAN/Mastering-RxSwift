@@ -27,8 +27,18 @@ import RxSwift
  # buffer
  */
 
+
+// buffer 2가지 조건이 있다. 시간, 버퍼에 저장하는 Max Size
+
+// 2가지 조건에 만족할 경우 이벤트를 방출한다. 즉 시간이 차거나, 버퍼사이즈에 도달했을대 방출하게된다.
+
 let disposeBag = DisposeBag()
 
 
-
-
+Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .buffer(timeSpan: .seconds(2), count: 3, scheduler: MainScheduler.instance)
+    .take(5)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)

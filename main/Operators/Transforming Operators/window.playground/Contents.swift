@@ -27,10 +27,29 @@ import RxSwift
  # window
  */
 
+// window 연사자도 buffer와 같이 2가지 조건이 있다. interval 시간, 방출할 최대 이벤트 갯수
+// 버퍼는 이벤트를 모아서 배열 형태로 방출하는 반면, 이벤트를 바로 방출하는 옵저버블을 구독자에게 전달한다.
+
+
 let disposeBag = DisposeBag()
 
+Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .window(timeSpan: .seconds(2), count: 3, scheduler: MainScheduler.instance)
+    .take(5)
+    .subscribe {
+        print($0)
+        
+        if let observable = $0.element {
+            observable.subscribe {
+                print($0)
+            }
+            .disposed(by: disposeBag)
+        }
+    }
+    .disposed(by: disposeBag)
 
 
 
 
-
+Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    

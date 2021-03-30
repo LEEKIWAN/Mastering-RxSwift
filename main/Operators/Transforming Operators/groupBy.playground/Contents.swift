@@ -27,7 +27,52 @@ import RxSwift
  # groupBy
  */
 
+// group by 는 클로져에서 리턴하는 값을 기준으로 그룹을 지어서
+// 그룹 안에있는 이벤트를 순서대로 방출하는 옵저버블을 방출한다.
+
 let disposeBag = DisposeBag()
 let words = ["Apple", "Banana", "Orange", "Book", "City", "Axe"]
 
+
+//Observable.from(words)
+//    .groupBy {
+//        $0.count
+//    }
+//    .subscribe(onNext: {
+//        print(" == ", $0.key)
+//
+//        $0.subscribe {
+//            print($0)
+//        }
+//    })
+//    .disposed(by: disposeBag)
+
+
+Observable.from(words)
+    .groupBy {
+        $0.count
+    }
+    .flatMap {
+        $0.toArray()
+    }
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: disposeBag)
+    
+
+
+
+
+
+
+//Observable.from(words)
+//    .toArray()
+//    .subscribe {
+//        print($0)
+//    }
+//    .disposed(by: disposeBag)
+
+// console Printed :
+// success(["Apple", "Banana", "Orange", "Book", "City", "Axe"])
 
