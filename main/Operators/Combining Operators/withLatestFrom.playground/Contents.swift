@@ -27,6 +27,15 @@ import RxSwift
  # withLatestFrom
  */
 
+// triggerObservable.withLatestFrom(dataObservable)
+
+// 트리거 옵저버블, 데이터 옵저버블 2가짛 형태로 부른다.
+
+// 트리거 옵저버블이 넥스트 이벤트를 방출하면 데이터옵저버블에서 가장 최근에 방출한 이벤트를 방출한다.
+// dataObservable 에서 onComplete 해도 trigger에서 complete를 방출하지 않지만, onError를 하면 trigger에서 에러를 방출한다.
+
+
+// triggerObservable 에서 컴플리트나 에러를 방출하면 바로 종료가된다.
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -36,4 +45,22 @@ enum MyError: Error {
 let trigger = PublishSubject<Void>()
 let data = PublishSubject<String>()
 
+
+trigger.withLatestFrom(data)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
+
+
+data.onNext("Hello")
+
+trigger.onNext(())
+trigger.onNext(())
+
+//data.onCompleted()
+//data.onError(MyError.error)
+//trigger.onNext(())
+
+trigger.onCompleted()
 

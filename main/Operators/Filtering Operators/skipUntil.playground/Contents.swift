@@ -40,7 +40,6 @@ let disposeBag = DisposeBag()
 let publish = PublishSubject<Int>()
 let trigger = PublishSubject<Int>()
 
-
 publish.onNext(0)
 
 publish.skip(until: trigger)

@@ -28,6 +28,8 @@ import RxSwift
  */
 // http://reactivex.io/documentation/operators/zip.html
 
+// Indexed Sequencing 
+
 let bag = DisposeBag()
 
 enum MyError: Error {

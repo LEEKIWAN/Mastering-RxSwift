@@ -27,6 +27,10 @@ import RxSwift
  # switchLatest
  */
 
+// 가장 최근 옵저버블이 방출하는 값을 방출한다.
+
+// 옵저버블을 방출하는 옵저버블에서 쓰인다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -35,4 +39,34 @@ enum MyError: Error {
 
 let a = PublishSubject<String>()
 let b = PublishSubject<String>()
+
+
+let source = PublishSubject<Observable<String>>()
+
+source
+    .switchLatest()
+    .subscribe {
+    print($0)
+}
+.disposed(by: bag)
+
+a.onNext("0")
+source.onNext(a)
+
+a.onNext("1")
+b.onNext("one")
+
+source.onNext(b)
+
+a.onNext("2")
+b.onNext("two")
+
+
+//a.onCompleted()
+b.onCompleted()
+
+//source.onCompleted()
+
+// 등록되어있는 옵저버블 그리고 source 옵저버블이 둘다 complete 되어야 complete 를 방출한다.
+
 

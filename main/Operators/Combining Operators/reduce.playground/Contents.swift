@@ -27,6 +27,12 @@ import RxSwift
  # reduce
  */
 
+
+// scan 은 accumulator 중간 처리 결과도 같이 출력하는 반면
+
+// reduce 의 경우에는 결과값 하나만 방출한다.
+
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -44,4 +50,8 @@ o.scan(0, accumulator: +)
 print("== reduce")
 
 
-
+o.reduce(0, accumulator: +)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)

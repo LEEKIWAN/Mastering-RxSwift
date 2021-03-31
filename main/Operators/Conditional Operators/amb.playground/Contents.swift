@@ -27,6 +27,9 @@ import RxSwift
  # amb
  */
 
+
+// amb 2개 이상 옵저버블 중에 가장 먼저 이벤트를 방출한 옵저버블만 처리하는 연산자이다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -38,3 +41,20 @@ let b = PublishSubject<String>()
 let c = PublishSubject<String>()
 
 
+//a.amb(b)
+Observable.amb([a, b, c])
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
+
+
+a.onNext("a")
+b.onNext("b")
+a.onNext("a")
+a.onNext("aa")
+b.onNext("bb")
+
+//b.onCompleted()
+
+a.onCompleted()

@@ -26,6 +26,12 @@ import RxSwift
 /*:
  # sample
  */
+// sample 은 WithLatestFrom 과 비슷하지만 파라미터와 호출 인스턴스과 바뀌어있다.
+
+//withLatestFrom 은 Trigger 할 때마다 데이터 옵저버블에서 가장 최신 방출한 데이터를 처리하지만
+
+// sample 은 오직 한번만 방출한다.
+
 
 let bag = DisposeBag()
 
@@ -33,6 +39,28 @@ enum MyError: Error {
    case error
 }
 
+
 let trigger = PublishSubject<Void>()
 let data = PublishSubject<String>()
+
+
+
+data.sample(trigger)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
+
+
+trigger.onNext(())
+
+data.onNext("Hello")
+
+trigger.onNext(())
+
+trigger.onNext(())
+
+//data.onCompleted()
+
+//trigger.onCompleted()
 

@@ -55,14 +55,14 @@ subject
 
 subject.onNext(b1)
 
-subject.onNext(b2)
+//subject.onNext(b2)
 //subject.onNext(b1)
 
 b1.onNext(4)
 b2.onNext(78)
-
-b1.onCompleted()
-b2.onCompleted()
-
-subject.onCompleted()
+//
+//b1.onCompleted()
+//b2.onCompleted()
+//
+//subject.onCompleted()
 
