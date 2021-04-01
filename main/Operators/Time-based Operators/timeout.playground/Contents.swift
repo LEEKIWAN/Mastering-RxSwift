@@ -26,9 +26,27 @@ import RxSwift
 /*:
  # timeout
  */
+// timout 무한히 timeout check 하는 함수
+// timeout 시간 내에 새로운 이벤트가 방출되지 않으면, error 를 방출하고 종료한다.
+// 2번째 인자는 error 대신 방출할 이벤트를 설정할수 있다.
+
 
 let bag = DisposeBag()
 
 let subject = PublishSubject<Int>()
 
 
+//subject.timeout(.seconds(3), scheduler: MainScheduler.instance)
+subject.timeout(.seconds(3), other: Observable.just(100), scheduler: MainScheduler.instance)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
+
+
+
+Observable<Int>.timer(.seconds(2), period: .seconds(5), scheduler: MainScheduler.instance)
+    .subscribe {
+        subject.onNext($0)
+    }
+    .disposed(by: bag)

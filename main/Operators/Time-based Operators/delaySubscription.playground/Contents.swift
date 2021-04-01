@@ -27,6 +27,10 @@ import RxSwift
  # delaySubscription
  */
 
+// delay 는 next 이벤트를 늦추는 반면
+// delaySubscription 은 구독 시점을 딜레이 시킨다.
+
+
 let bag = DisposeBag()
 
 func currentTimeString() -> String {
@@ -35,6 +39,15 @@ func currentTimeString() -> String {
    return f.string(from: Date())
 }
 
+
+Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .take(10)
+    .debug()
+    .delaySubscription(.seconds(7), scheduler: MainScheduler.instance)
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
 
 
 

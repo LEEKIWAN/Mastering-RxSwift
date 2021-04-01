@@ -27,12 +27,26 @@ import RxSwift
  # delay
  */
 
+// 넥스트 이벤트를 int 값 만큼 딜레이시켜서 방출하는 연산자.
+
+// 에러 이벤트는 딜레이 없이 바로 방출한다.
+
 let bag = DisposeBag()
 
+
 func currentTimeString() -> String {
-   let f = DateFormatter()
-   f.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
-   return f.string(from: Date())
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+    return f.string(from: Date())
 }
 
+
+
+Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .debug()
+    .delay(.seconds(3), scheduler: MainScheduler.instance)
+    .subscribe {
+        print(currentTimeString() , $0)
+    }
+    .disposed(by: bag)
 

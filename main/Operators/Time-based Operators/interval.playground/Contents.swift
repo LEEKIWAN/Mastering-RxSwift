@@ -26,5 +26,25 @@ import RxSwift
 /*:
  # interval
  */
+// 특정 주기마다 정수를 방출하는 이벤트가 필요
+// 무한히 방출하기때문에 종료할려면 디스포즈 해야한다.
+
+// 새로운 구독하는 시작하는 순간부터 새로운 타이머가 시작된다.
+
+let bag = DisposeBag()
+
+
+
+let o1 = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .subscribe {
+        print($0)
+    }
+
+
+DispatchQueue.main
+    .asyncAfter(deadline: .now() + 5) {
+        o1.dispose()
+    }
+
 
 
