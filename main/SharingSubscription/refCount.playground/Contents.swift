@@ -26,14 +26,22 @@ import RxSwift
 /*:
  # refCount
  */
+// refCount 는 ConnectableObservable 메소드이다. 그래서 connect 함수를 호출할 필요가 없다.
+// 이벤트 방출할 구독자가 생기면 바로 connect 를 호출해주고 구독자가 종료되서 방출해줄 구독자가 없다면, 자동으로 disconnect 해준다.
+// publish, replay 같은경우 take 로 종료시점을 처리해주었다면,
+// reCount는 메모리를 알아서 관리해주기때문에 편하다.
+
+
+// refCountObservable 이라고도 불린다.
 
 let bag = DisposeBag()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug().publish()
+
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug().publish().refCount()
 
 let observer1 = source
    .subscribe { print("🔵", $0) }
 
-source.connect()
+//source.connect()
 
 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
    observer1.dispose()

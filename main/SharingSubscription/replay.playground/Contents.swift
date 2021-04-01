@@ -27,16 +27,29 @@ import RxSwift
  # replay, replayAll
  */
 
+// ConnectableObservable은 connect 한순간부터 시퀀스를 만들어 이벤트를 방출한다.
+
+// 그래서 늦게 구독 한 구독자한테는 전 데이터는 받을수가 없는데 받기위해 어케해야하나?
+
+// 버퍼에 저장하고있다가 구독하는 순간에 모두 전달하면 된다.
+
+// replayAll 은 버퍼 사이즈 제한이 없다. 그래서 가능한 사용하지 말아야 한다.
+
 let bag = DisposeBag()
-let subject = PublishSubject<Int>()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).multicast(subject)
+
+//let replaySubject = ReplaySubject<Int>.create(bufferSize: 5)
+
+//let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).multicast(replaySubject)
+// 이 방법은 replaysubject를 만들고 파라미터로 전달해야하는 불편함이있다. 그래서 publish 처럼 replay 연산자를 제공한다.
+
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).replay(5)
 
 source
    .subscribe { print("🔵", $0) }
    .disposed(by: bag)
 
 source
-   .delaySubscription(.seconds(3), scheduler: MainScheduler.instance)
+   .delaySubscription(.seconds(4), scheduler: MainScheduler.instance)
    .subscribe { print("🔴", $0) }
    .disposed(by: bag)
 

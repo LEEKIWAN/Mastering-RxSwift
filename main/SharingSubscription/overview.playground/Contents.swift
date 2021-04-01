@@ -27,6 +27,11 @@ import RxSwift
  # Sharing Subscription
  */
 
+// 시퀀스는 구독하는 순간부터 매번 구독할때마다 생긴다.
+// 시퀀스들은 비동기 작업 (서버 통신, DB작업)을 여러번 하게 되면, 자원을 낭비하게 된다.
+// 자원을 낭비 하지않기 위해 share 연산자를 사용한다.
+// 시퀀스를 딱 한번 실행한다.
+
 let bag = DisposeBag()
 
 let source = Observable<String>.create { observer in
@@ -38,6 +43,7 @@ let source = Observable<String>.create { observer in
       
       observer.onCompleted()
    }
+    
    task.resume()
    
    return Disposables.create {
@@ -45,8 +51,26 @@ let source = Observable<String>.create { observer in
    }
 }
 .debug()
+.share()
 
+source.subscribe {
+    print($0)
+}
+.disposed(by: bag)
 
-source.subscribe().disposed(by: bag)
-source.subscribe().disposed(by: bag)
-source.subscribe().disposed(by: bag)
+source.subscribe {
+    print($0)
+}
+.disposed(by: bag)
+
+//source.subscribe().disposed(by: bag)
+//source.subscribe().disposed(by: bag)
+//source.subscribe().disposed(by: bag)
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    source.subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
+}
+      

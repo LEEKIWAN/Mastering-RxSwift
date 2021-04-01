@@ -27,8 +27,19 @@ import RxSwift
  # share
  */
 
+//share 연산자는 refCountObservalbe 을 리턴한다.
+// share 연산자의 첫번째 파라미터는 replay 즉 버퍼 사이즈를 결정한다.
+
+// 2번째 파라미터는 forever 일 경우 Observable이 종료되어도, 버퍼에 저장된 데이터를 계속 가지고 있는다.
+
+// 하나의 시퀀스만 만들어진다.
+
+
 let bag = DisposeBag()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug()
+//let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug().share()
+
+//let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug().share(replay: 5)
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug().share(replay: 5, scope: .forever)
 
 let observer1 = source
    .subscribe { print("🔵", $0) }

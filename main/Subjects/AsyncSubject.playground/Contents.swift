@@ -54,8 +54,8 @@ subject.onNext(1)
 subject.onNext(2)
 subject.onNext(3)
 
-//subject.onCompleted()
+subject.onCompleted()
 
-subject.onError(MyError.error)
+//subject.onError(MyError.error)
 
 

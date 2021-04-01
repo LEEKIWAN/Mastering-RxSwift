@@ -26,10 +26,13 @@ import RxSwift
 /*:
  # publish
  */
+// multicast 는 connectableObservable을 만들기 위해선 서브젝트를 만들고 파리미터로 전달해야 한다.
+// 서브젝트 파라미터 없이 connectableObservable을 만드는 연산자이다.
+
 
 let bag = DisposeBag()
-let subject = PublishSubject<Int>()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).multicast(subject)
+
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).publish()
 
 source
    .subscribe { print("🔵", $0) }
@@ -41,9 +44,5 @@ source
    .disposed(by: bag)
 
 source.connect()
-
-
-
-
 
 

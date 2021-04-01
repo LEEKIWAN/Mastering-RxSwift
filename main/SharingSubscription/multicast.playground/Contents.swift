@@ -27,12 +27,25 @@ import RxSwift
  # multicast
  */
 
+// 여러 구독자가 하나의 옵저버블을 공유
+// 원본 옵저버블이 방출하는 이벤트는 구독자가 아니라 파라미터 서브젝트로 전달된다.
+// 그리고 서브젝트는 등록된 다수의 구독자에게 전달한다.
+
+// connetableObservable은 connect를 한 시점부터 호출한다.
+// connetableObservable은 모든 구독자가 원본 옵저버블을 공유한다.
+
+// 원본 옵저버블에서 방출한 이벤트를 모든 구독자에게 전달한다. 시퀀스는 딱 하나!
+
 let bag = DisposeBag()
 let subject = PublishSubject<Int>()
 
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5)
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .take(10)
+    .multicast(subject)
+
 
 source
+    .delaySubscription(.seconds(5), scheduler: MainScheduler.instance)
    .subscribe { print("🔵", $0) }
    .disposed(by: bag)
 
@@ -42,9 +55,4 @@ source
    .disposed(by: bag)
 
 
-
-
-
-
-
-
+source.connect()        // subscribe 시점이 connect 이다.
