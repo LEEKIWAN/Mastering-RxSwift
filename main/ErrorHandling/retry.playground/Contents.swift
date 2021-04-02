@@ -26,6 +26,9 @@ import RxSwift
 /*:
  # retry
  */
+// 오류가 발생하면 바로 옵저버블을 다시 구동하는 효과를 가진다. 재시도 횟수를 적어야 무한루프에 안빠진다.
+// retry() 재시도 횟수를 안적으면 무한루프한다.
+
 
 let bag = DisposeBag()
 
@@ -53,6 +56,8 @@ let source = Observable<Int>.create { observer in
    }
 }
 
+
 source
+    .retry(10)
    .subscribe { print($0) }
    .disposed(by: bag)

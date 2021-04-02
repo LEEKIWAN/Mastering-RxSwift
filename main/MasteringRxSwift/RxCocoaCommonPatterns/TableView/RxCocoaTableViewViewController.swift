@@ -26,26 +26,63 @@ import RxCocoa
 
 
 class RxCocoaTableViewViewController: UIViewController {
-   
-   @IBOutlet weak var listTableView: UITableView!
-   
-   let priceFormatter: NumberFormatter = {
-      let f = NumberFormatter()
-      f.numberStyle = NumberFormatter.Style.currency
-      f.locale = Locale(identifier: "Ko_kr")
-      
-      return f
-   }()
-   
-   let bag = DisposeBag()
-   
-         
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-     
-   }
+    
+    @IBOutlet weak var listTableView: UITableView!
+    
+    let priceFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = NumberFormatter.Style.currency
+        f.locale = Locale(identifier: "Ko_kr")
+        
+        return f
+    }()
+    
+    let bag = DisposeBag()
+    
+    let nameObservable = Observable.of(appleProducts.map({
+        $0.name
+    }))
+    
+    let productObservable = Observable.of(appleProducts)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // #1 standard Cell
+        
+//        nameObservable.bind(to: listTableView.rx.items) { (tableView, row, element) in
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "standardCell")!
+//            cell.textLabel?.text = element
+//            return cell
+//        }
+//        .disposed(by: bag)
+        
+        
+        // #2 -  #1을 개선 - Basic type 이기때문에 거의 안쓰인다. 실무적으로
+
+//        nameObservable.bind(to: listTableView.rx.items(cellIdentifier: "standardCell")) { row, element, cell in
+//            cell.textLabel?.text = element
+//        }
+//        .disposed(by: bag)
+        
+        
+        // #3 - Custom Cell 을 만들어보자
+        
+        productObservable.bind(to: listTableView.rx.items(cellIdentifier: "productCell", cellType: ProductTableViewCell.self)) { [weak self] row, element, cell in
+            cell.categoryLabel.text = element.category
+            cell.productNameLabel.text = element.name
+            cell.summaryLabel.text = element.summary
+            
+            cell.priceLabel.text = self?.priceFormatter.string(for: element.price)
+        }
+        .disposed(by: bag)
+        
+        
+//        listTableView.rx.itemSelected.subscribe {
+//            productObservable.ele $0.row
+//        }
+        
+    }
 }
 
 

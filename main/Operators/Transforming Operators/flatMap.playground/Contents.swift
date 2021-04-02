@@ -44,14 +44,16 @@ let b2 = BehaviorSubject<Int>(value: 2)
 
 let subject = PublishSubject<BehaviorSubject<Int>>()
 
-subject
-    .flatMap({
-        $0.asObservable()
-    })
-    .subscribe {
+
+subject.flatMap {
+    $0.asObservable()
+}
+.subscribe {
     print($0)
 }
 .disposed(by: disposeBag)
+
+
 
 subject.onNext(b1)
 

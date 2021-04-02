@@ -26,6 +26,8 @@ import RxSwift
 /*:
  # catchError
  */
+// 원본 옵저버블에서 에러가 발생하면 catch 에서 리턴한 옵저버블로 변경된다.
+
 
 let bag = DisposeBag()
 
@@ -37,9 +39,22 @@ let subject = PublishSubject<Int>()
 let recovery = PublishSubject<Int>()
 
 subject
+    .catch({ (error) -> Observable<Int> in
+        return recovery
+    })
    .subscribe { print($0) }
    .disposed(by: bag)
 
+subject.onNext(0)
+subject.onNext(1)
+subject.onNext(2)
+subject.onError(MyError.error)
+
+subject.onNext(3)
+
+recovery.onNext(4)
+recovery.onNext(5)
 
 
-
+//recovery.onError(MyError.error)
+recovery.onCompleted()

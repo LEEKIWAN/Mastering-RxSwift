@@ -27,6 +27,8 @@ import RxSwift
  # retryWhen
  */
 
+// 옵저버블이 에러 메세지를 방출했다. when . 그리고나서 재시도 할 때를 정해서 재시도 시킬수 있따.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -56,8 +58,12 @@ let source = Observable<Int>.create { observer in
 let trigger = PublishSubject<Void>()
 
 source
+    .retry(when: { error in
+        trigger
+    })
    .subscribe { print($0) }
    .disposed(by: bag)
 
 
-
+trigger.onNext(())
+trigger.onNext(())

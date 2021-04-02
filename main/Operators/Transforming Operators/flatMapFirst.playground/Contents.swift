@@ -45,8 +45,10 @@ subject
    .subscribe { print($0) }
    .disposed(by: disposeBag)
 
-subject.onNext(a)
 subject.onNext(b)
+
+subject.onNext(a)
+
 
 a.onNext(11)
 b.onNext(22)
@@ -55,4 +57,5 @@ a.onNext(111)
 
 a.onCompleted()
 
+b.onCompleted()
 subject.onCompleted()

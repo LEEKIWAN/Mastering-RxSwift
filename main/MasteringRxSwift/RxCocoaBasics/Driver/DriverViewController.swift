@@ -24,60 +24,78 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
+
+// Driver 는 데이터를 UI 바인딩하는 연산자
+
+// SharedSequence Type 으로 바뀐다.
+
+// 에러처리에도 용이하다. 왜?
+
+
 enum ValidationError: Error {
-   case notANumber
+    case notANumber
 }
 
 class DriverViewController: UIViewController {
-   
-   let bag = DisposeBag()
-   
-   @IBOutlet weak var inputField: UITextField!
-   
-   @IBOutlet weak var resultLabel: UILabel!
-   
-   @IBOutlet weak var sendButton: UIButton!
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      let result = inputField.rx.text
-         .flatMapLatest { validateText($0) }
-
-      result
-         .map { $0 ? "Ok" : "Error" }
-         .bind(to: resultLabel.rx.text)
-         .disposed(by: bag)
-
-      result
-         .map { $0 ? UIColor.blue : UIColor.red }
-         .bind(to: resultLabel.rx.backgroundColor)
-         .disposed(by: bag)
-
-      result
-         .bind(to: sendButton.rx.isEnabled)
-         .disposed(by: bag)
-      
-   }
+    
+    let bag = DisposeBag()
+    
+    @IBOutlet weak var inputField: UITextField!
+    
+    @IBOutlet weak var resultLabel: UILabel!
+    
+    @IBOutlet weak var sendButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let result = inputField.rx.text
+            .asDriver()
+            .flatMapLatest {
+                validateText($0)
+                    .asDriver(onErrorJustReturn: false)
+            }
+        
+        
+        
+        
+        result
+            .map { $0 ? "Ok" : "Error" }
+            //            .bind(to: resultLabel.rx.text)
+            .drive(resultLabel.rx.text)
+            .disposed(by: bag)
+        
+        result
+            .map { $0 ? UIColor.blue : UIColor.red }
+            .drive(self.resultLabel.rx.backgroundColor)
+            .disposed(by: self.bag)
+        
+        //
+        //        result
+        //            .bind(to: sendButton.rx.isEnabled)
+        //            .disposed(by: bag)
+        
+    }
 }
 
 
 func validateText(_ value: String?) -> Observable<Bool> {
-   return Observable<Bool>.create { observer in
-      print("== \(value ?? "") Sequence Start ==")
-      
-      defer {
-         print("== \(value ?? "") Sequence End ==")
-      }
-      
-      guard let str = value, let _ = Double(str) else {
-         observer.onError(ValidationError.notANumber)
-         return Disposables.create()
-      }
-      
-      observer.onNext(true)
-      observer.onCompleted()
-      
-      return Disposables.create()
-   }
+    return Observable<Bool>.create { observer in
+        print("== \(value ?? "") Sequence Start ==")
+        
+        defer {
+            print("== \(value ?? "") Sequence End ==")
+        }
+        
+        guard let str = value, let _ = Double(str) else {
+            observer.onError(ValidationError.notANumber)
+            return Disposables.create()
+        }
+        
+        observer.onNext(true)
+        observer.onCompleted()
+        
+        return Disposables.create()
+    }
 }

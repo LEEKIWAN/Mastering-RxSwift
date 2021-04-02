@@ -27,6 +27,8 @@ import RxSwift
  # catchErrorJustReturn
  */
 
+// 에러가 발생하면 디폴트값을 정해서 방출하고 컴플리트 된다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -36,8 +38,12 @@ enum MyError: Error {
 let subject = PublishSubject<Int>()
 
 subject
+    .catchAndReturn(100)
    .subscribe { print($0) }
    .disposed(by: bag)
 
+
+subject.onNext(0)
+subject.onNext(1)
 subject.onError(MyError.error)
 

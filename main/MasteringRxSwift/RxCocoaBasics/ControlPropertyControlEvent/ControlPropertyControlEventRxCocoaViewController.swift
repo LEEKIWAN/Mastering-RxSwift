@@ -24,31 +24,88 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
+
+// Trait UI에 특화된 옵저버블이다.
+// 동일한 시퀀스를 공유한다. share() 공유한다.
+// 항상 메인스레드에서 실행도니다.
+
+// 에러이벤트를 받지 않는다. 바드면 크래쉬
+
+// ControlProperty - 리플레이가 1 있다.
+// ControlEvent - 퍼블리쉬 형태 버퍼가 없다. 
+// Driver
+// Signal
+
 class ControlPropertyControlEventRxCocoaViewController: UIViewController {
-   
-   let bag = DisposeBag()
-   
-   @IBOutlet weak var colorView: UIView!
-   
-   @IBOutlet weak var redSlider: UISlider!
-   @IBOutlet weak var greenSlider: UISlider!
-   @IBOutlet weak var blueSlider: UISlider!
-   
-   @IBOutlet weak var redComponentLabel: UILabel!
-   @IBOutlet weak var greenComponentLabel: UILabel!
-   @IBOutlet weak var blueComponentLabel: UILabel!
-   
-   @IBOutlet weak var resetButton: UIButton!
-   
-   private func updateComponentLabel() {
-      redComponentLabel.text = "\(Int(redSlider.value))"
-      greenComponentLabel.text = "\(Int(greenSlider.value))"
-      blueComponentLabel.text = "\(Int(blueSlider.value))"
-   }
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      
-   }
+    
+    let bag = DisposeBag()
+    
+    @IBOutlet weak var colorView: UIView!
+    
+    @IBOutlet weak var redSlider: UISlider!
+    @IBOutlet weak var greenSlider: UISlider!
+    @IBOutlet weak var blueSlider: UISlider!
+    
+    @IBOutlet weak var redComponentLabel: UILabel!
+    @IBOutlet weak var greenComponentLabel: UILabel!
+    @IBOutlet weak var blueComponentLabel: UILabel!
+    
+    @IBOutlet weak var resetButton: UIButton!
+    
+    private func updateComponentLabel() {
+        redComponentLabel.text = "\(Int(redSlider.value))"
+        greenComponentLabel.text = "\(Int(greenSlider.value))"
+        blueComponentLabel.text = "\(Int(blueSlider.value))"
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        redSlider.rx.value.map { "\(Int($0))" }
+            .bind(to: redComponentLabel.rx.text)
+            .disposed(by: bag)
+        
+        
+        greenSlider.rx.value.map { "\(Int($0))" }
+            .bind(to: greenComponentLabel.rx.text)
+            .disposed(by: bag)
+        
+        blueSlider.rx.value.map { "\(Int($0))" }
+            .bind(to: blueComponentLabel.rx.text)
+            .disposed(by: bag)
+        
+        
+        Observable.combineLatest(redSlider.rx.value, greenSlider.rx.value, blueSlider.rx.value)
+            .map { tuple -> UIColor in
+                let redComponent = CGFloat(tuple.0) / 255
+                let greenComponent = CGFloat(tuple.1) / 255
+                let blueComponent = CGFloat(tuple.2) / 255
+                
+                let color = UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1.0)
+                return color
+            }
+            .bind(to: colorView.rx.backgroundColor)
+            .disposed(by: bag)
+        
+        
+        resetButton.rx.tap.subscribe(onNext: { [weak self] in
+            self?.colorView.backgroundColor = .black
+            self?.redSlider.value = 0
+            self?.greenSlider.value = 0
+            self?.blueSlider.value = 0
+
+            self?.updateComponentLabel()
+        })
+        .disposed(by: bag)
+        
+//        resetButton.rx.tap.subscribe({ s in
+//            print("Asdf")
+//        })
+//        .disposed(by: bag)
+        
+        
+        
+        
+    }
 }
