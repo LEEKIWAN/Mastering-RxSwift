@@ -66,6 +66,7 @@ class RxCocoaTableViewViewController: UIViewController {
 //        .disposed(by: bag)
         
         
+        
         // #3 - Custom Cell 을 만들어보자
         
         productObservable.bind(to: listTableView.rx.items(cellIdentifier: "productCell", cellType: ProductTableViewCell.self)) { [weak self] row, element, cell in
@@ -82,9 +83,41 @@ class RxCocoaTableViewViewController: UIViewController {
 //            productObservable.ele $0.row
 //        }
         
+        
+        // Select Deselect
+//        listTableView.rx.modelSelected(Product.self)
+//            .subscribe(onNext: {
+//                print($0.name)
+//            })
+//            .disposed(by: bag)
+//
+//
+//        listTableView.rx.itemSelected
+//            .subscribe(onNext: { [weak self] indexPath in
+//                self?.listTableView.deselectRow(at: indexPath, animated: true)
+//            })
+//            .disposed(by: bag)
+        
+        // 합친거다.
+        Observable.zip(listTableView.rx.itemSelected, listTableView.rx.modelSelected(Product.self))
+            .bind { [weak self] (indexPath, product) in
+                self?.listTableView.deselectRow(at: indexPath, animated: true)
+                print(product.name)
+            }
+            .disposed(by: bag)
+        
+//        listTableView.delegate = self
+        
+        listTableView.rx.setDelegate(self)
+            .disposed(by: bag)
+        
     }
 }
 
 
 
-
+extension RxCocoaTableViewViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("didselect")
+    }
+}

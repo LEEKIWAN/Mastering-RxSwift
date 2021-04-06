@@ -26,6 +26,6 @@ class HelloRxCocoaViewController: UIViewController {
         }
         .bind(to: valueLabel.rx.text)
         .disposed(by: bag)
-//        tapButton.rx.tap.bind(to: valueLabel.rx.text)
+            
     }
 }

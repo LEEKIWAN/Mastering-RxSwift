@@ -57,4 +57,4 @@ source
 
 source.connect()        // subscribe 시점이 connect 이다.
 
-source.connect()        // connect는 원본 옵저버블 하나의 시퀀스만 이용가능하다.
+//source.connect()        // connect는 원본 옵저버블 하나의 시퀀스만 이용가능하다.

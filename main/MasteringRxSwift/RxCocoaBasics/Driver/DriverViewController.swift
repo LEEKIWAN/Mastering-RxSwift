@@ -26,9 +26,10 @@ import RxCocoa
 
 
 
-// Driver 는 데이터를 UI 바인딩하는 연산자
+// Driver 는 데이터를 UI 바인딩하는 연산자 그래서 메인스레드 실행된다.
+// Driver는 시퀀스를 공유한다.
 
-// SharedSequence Type 으로 바뀐다.
+// SharedSequence Type 으로 바뀐다. share(replay: 1, scope: .whileConnected)
 
 // 에러처리에도 용이하다. 왜?
 
@@ -50,31 +51,35 @@ class DriverViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let result = inputField.rx.text
-            .asDriver()
+        let result = inputField.rx.text.asDriver()
             .flatMapLatest {
                 validateText($0)
                     .asDriver(onErrorJustReturn: false)
             }
+            
+//            .flatMapLatest {
+//                validate($0)
+//            }
+            
+            
         
-        
+        	
         
         
         result
             .map { $0 ? "Ok" : "Error" }
-            //            .bind(to: resultLabel.rx.text)
             .drive(resultLabel.rx.text)
             .disposed(by: bag)
         
         result
             .map { $0 ? UIColor.blue : UIColor.red }
-            .drive(self.resultLabel.rx.backgroundColor)
+            .drive(resultLabel.rx.backgroundColor)
             .disposed(by: self.bag)
         
         //
-        //        result
-        //            .bind(to: sendButton.rx.isEnabled)
-        //            .disposed(by: bag)
+        result
+            .drive(sendButton.rx.isEnabled)
+            .disposed(by: bag)
         
     }
 }

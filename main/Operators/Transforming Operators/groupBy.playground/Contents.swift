@@ -48,18 +48,30 @@ let words = ["Apple", "Banana", "Orange", "Book", "City", "Axe"]
 //    .disposed(by: disposeBag)
 
 
+//Observable.from(words)
+//    .groupBy {
+//        $0.count
+//    }
+//    .flatMap {
+//        $0.toArray()
+//    }
+//    .subscribe {
+//        print($0)
+//    }
+//    .disposed(by: disposeBag)
+    
+
 Observable.from(words)
     .groupBy {
         $0.count
     }
-    .flatMap {
+    .flatMap({
         $0.toArray()
-    }
-    .subscribe {
+    })
+    .subscribe({
         print($0)
-    }
+    })
     .disposed(by: disposeBag)
-    
 
 
 

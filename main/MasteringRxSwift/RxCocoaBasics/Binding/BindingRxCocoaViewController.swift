@@ -51,6 +51,7 @@ class BindingRxCocoaViewController: UIViewController {
             .disposed(by: disposeBag)
         
         
+            
         
     }
     

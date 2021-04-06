@@ -81,7 +81,7 @@ class ControlPropertyControlEventRxCocoaViewController: UIViewController {
                 let redComponent = CGFloat(tuple.0) / 255
                 let greenComponent = CGFloat(tuple.1) / 255
                 let blueComponent = CGFloat(tuple.2) / 255
-                
+
                 let color = UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1.0)
                 return color
             }
@@ -89,6 +89,8 @@ class ControlPropertyControlEventRxCocoaViewController: UIViewController {
             .disposed(by: bag)
         
         
+        
+    
         resetButton.rx.tap.subscribe(onNext: { [weak self] in
             self?.colorView.backgroundColor = .black
             self?.redSlider.value = 0

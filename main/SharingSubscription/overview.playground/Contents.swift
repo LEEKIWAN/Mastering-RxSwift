@@ -39,6 +39,7 @@ let source = Observable<String>.create { observer in
    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
       if let data = data, let html = String(data: data, encoding: .utf8) {
          observer.onNext(html)
+        print("onNext")
       }
       
       observer.onCompleted()
