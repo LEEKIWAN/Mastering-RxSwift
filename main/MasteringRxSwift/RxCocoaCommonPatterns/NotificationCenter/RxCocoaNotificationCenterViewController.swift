@@ -25,35 +25,57 @@ import RxSwift
 import RxCocoa
 
 class RxCocoaNotificationCenterViewController: UIViewController {
-   
-   let bag = DisposeBag()
-   
-   @IBOutlet weak var textView: UITextView!
-   
-   @IBOutlet weak var toggleButton: UIBarButtonItem!
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      toggleButton.rx.tap
-         .subscribe(onNext: { [unowned self] in
-            if self.textView.isFirstResponder {
-               self.textView.resignFirstResponder()
-            } else {
-               self.textView.becomeFirstResponder()
+    
+    let bag = DisposeBag()
+    
+    @IBOutlet weak var textView: UITextView!
+    
+    @IBOutlet weak var toggleButton: UIBarButtonItem!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        toggleButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                if self.textView.isFirstResponder {
+                    self.textView.resignFirstResponder()
+                } else {
+                    self.textView.becomeFirstResponder()
+                }
+            })
+            .disposed(by: bag)
+        
+        
+        let keyboardWillShowObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification, object: nil)
+            .map { notification in
+                (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
             }
-         })
-         .disposed(by: bag)
-      
-      
-      
-   }
-   
-   override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
-      
-      if textView.isFirstResponder {
-         textView.resignFirstResponder()
-      }
-   }
+        
+        let keyboardWillHideObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .map { notification -> CGFloat in
+                0
+            }
+        
+        Observable.merge(keyboardWillShowObservable, keyboardWillHideObservable)
+            .map { [unowned self] height -> UIEdgeInsets in
+                var inset = self.textView.contentInset
+                inset.bottom = height
+                return inset
+            }
+            .bind { [weak self] (inset) in
+                self?.textView.contentInset = inset
+                self?.textView.scrollIndicatorInsets = inset
+            }
+            .disposed(by: bag)
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if textView.isFirstResponder {
+            textView.resignFirstResponder()
+        }
+    }
 }

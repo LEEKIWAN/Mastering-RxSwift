@@ -24,28 +24,44 @@ import RxSwift
 import RxCocoa
 
 class RxCocoaCollectionViewViewController: UIViewController {
-   
-   let bag = DisposeBag()
-   
-   @IBOutlet weak var listCollectionView: UICollectionView!
-   
-   
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      
-   }
+    
+    let bag = DisposeBag()
+    
+    let list = Observable.just(MaterialBlue.allColors)
+    
+    @IBOutlet weak var listCollectionView: UICollectionView!
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        list.bind(to: listCollectionView.rx.items(cellIdentifier: "colorCell", cellType: ColorCollectionViewCell.self)) { indexPath, element, cell in
+            cell.backgroundColor = element
+            cell.hexLabel.text = element.rgbHexString
+        }
+        .disposed(by: bag)
+        
+        listCollectionView.rx.modelSelected(UIColor.self)
+            .bind {
+                print($0.rgbHexString)
+            }
+            .disposed(by: bag)
+        
+        listCollectionView.rx.setDelegate(self)
+            .disposed(by: bag)
+    }
 }
 
 
 extension RxCocoaCollectionViewViewController: UICollectionViewDelegateFlowLayout {
-   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
-         return CGSize.zero
-      }
-      
-      let value = (collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing)) / 2
-      return CGSize(width: value, height: value)
-   }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize.zero
+        }
+        
+        let value = (collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing)) / 2
+        return CGSize(width: value, height: value)
+    }
 }
