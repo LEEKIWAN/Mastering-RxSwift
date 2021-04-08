@@ -64,3 +64,37 @@ trigger.onNext(())
 
 trigger.onCompleted()
 
+
+
+
+
+//saveButton.rx.tap
+//    .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+//    .withLatestFrom(contentTextView.rx.text.orEmpty)
+//    .bind(to: viewModel.saveAction.inputs)
+//    .disposed(by: rx.disposeBag)
+
+
+
+//let buttonObservable = PublishSubject<Void>()
+//let text = BehaviorSubject<String>(value: "Hell World")
+////
+//
+//buttonObservable.throttle(.milliseconds(3000), latest: true, scheduler: MainScheduler.instance)
+//    .withLatestFrom(text)
+//    .subscribe {
+//        print($0)
+//    }
+//    .disposed(by: bag)
+////
+////
+//buttonObservable.onNext(())
+//buttonObservable.onNext(())
+//buttonObservable.onNext(())
+//buttonObservable.onNext(())
+//buttonObservable.onNext(())
+//buttonObservable.onNext(())
+////
+//
+//buttonObservable.onCompleted()
+

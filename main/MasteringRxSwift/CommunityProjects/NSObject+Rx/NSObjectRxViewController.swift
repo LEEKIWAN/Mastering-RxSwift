@@ -23,10 +23,14 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
-class NSObjectRxViewController: UIViewController {
+// 리스소 정리를위해 disposeBag 을 사용해용해야하는데 HasDisposeBag 을 채택함으로 diposebag을 추가해준다.
+// 단 NSObject을 상속한 클래스만 사용 가능하다.
 
-   let bag = DisposeBag()
+class NSObjectRxViewController: UIViewController, HasDisposeBag {
+
+//   let bag = DisposeBag()
 
    let button = UIButton(type: .system)
    let label = UILabel()
@@ -36,14 +40,16 @@ class NSObjectRxViewController: UIViewController {
 
       Observable.just("Hello")
          .subscribe { print($0) }
-         .disposed(by: bag)
+        .disposed(by: rx.disposeBag)
 
       button.rx.tap
          .map { "Hello" }
          .bind(to: label.rx.text)
-         .disposed(by: bag)
+         .disposed(by: rx.disposeBag)
    }
 }
+
+
 
 class MyClass {
    let bag = DisposeBag()

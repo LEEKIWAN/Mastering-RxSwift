@@ -52,9 +52,17 @@ class CustomControlPropertyViewController: UIViewController {
         //         .bind(to: view.rx.backgroundColor)
         //         .disposed(by: bag)
         
+//        resetButton.rx.tap
+//            .map {
+//                UIColor(white: 0.5, alpha: 1.0)
+//            }
+//            .bind(to: whiteSlider.rx.color.asObserver(), view.rx.backgroundColor.asObserver())
+//            .disposed(by: bag)
+        
         whiteSlider.rx.color
             .bind(to: view.rx.backgroundColor)
             .disposed(by: bag)
+        
         
         resetButton.rx.tap
             .map {
@@ -62,20 +70,22 @@ class CustomControlPropertyViewController: UIViewController {
             }
             .bind(to: whiteSlider.rx.color.asObserver(), view.rx.backgroundColor.asObserver())
             .disposed(by: bag)
-        
+            
     }
 }
 
+
 extension Reactive where Base: UISlider {
     var color: ControlProperty<UIColor?> {
-        return base.rx.controlProperty(editingEvents: .valueChanged) { (slider) in
+        controlProperty(editingEvents: .valueChanged) { slider in
             UIColor(white: CGFloat(slider.value), alpha: 1.0)
         } setter: { (slider, color) in
             var white = CGFloat(1)
             color?.getWhite(&white, alpha: nil)
             slider.value = Float(white)
         }
-    }
-    
-}
 
+            
+
+    }
+}

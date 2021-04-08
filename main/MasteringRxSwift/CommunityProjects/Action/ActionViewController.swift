@@ -23,22 +23,65 @@
 import UIKit
 import RxSwift
 import RxCocoa
-//import Action
-//import NSObject_Rx
+import Action
+import NSObject_Rx
 
 class ActionViewController: UIViewController {
-   
-   @IBOutlet weak var runButton: UIButton!
-   
-   @IBOutlet weak var enabledSwitch: UISwitch!
-   
-      
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      
-//      enabledSwitch.rx.value
-//         .bind(to: runButton.rx.isEnabled)
-//         .disposed(by: rx.disposeBag)
-   }
+    
+    @IBOutlet weak var runButton: UIButton!
+    
+    @IBOutlet weak var enabledSwitch: UISwitch!
+    
+    lazy var loginAction: Action<String, Bool> = Action { str in
+        // loginRequest returns an Observable<Bool>
+        print(str)
+        
+        return Observable.just(true)
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //        enabledSwitch.rx.value
+        //            .bind(to: runButton.rx.isEnabled)
+        //            .disposed(by: rx.disposeBag)
+        
+        
+//        let buttonActon = Action<Void, Void> { (_) -> Observable<Void> in
+//            print("doing some work")
+//            return Observable.empty()
+//        }
+//
+//        runButton.rx.action = buttonActon
+
+        
+        
+//        let tt = Observable.combineLatest(Observable.just("Hello"), Observable.just("kiwan"))
+        
+        
+        runButton.rx.tap
+            .map({
+                "asdf"
+            })
+            .bind(to: loginAction.inputs)
+            .disposed(by: rx.disposeBag)
+        
+        
+        
+//        loginAction.elements
+//            .subscribe {
+//                print("ASdf")
+//            }
+//            .disposed(by: rx.disposeBag)
+        
+//        runButton.rx.tap
+//            .bind(to: loginAction.input)
+        
+        
+//            .disposed(by: bag)
+        
+        
+    }
+    
+    //    func action
 }

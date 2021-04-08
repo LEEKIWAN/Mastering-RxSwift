@@ -37,7 +37,7 @@ let buttonTap = Observable<String>.create { observer in
    DispatchQueue.global().async {
       for i in 1...10 {
          observer.onNext("Tap \(i)")
-         Thread.sleep(forTimeInterval: 0.3)
+        Thread.sleep(forTimeInterval: 0.3)
       }
       
       Thread.sleep(forTimeInterval: 1)

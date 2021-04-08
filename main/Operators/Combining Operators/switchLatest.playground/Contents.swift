@@ -58,15 +58,14 @@ b.onNext("one")
 
 source.onNext(b)
 
-a.onNext("2")
+//a.onNext("2")
 b.onNext("two")
-
+b.onNext("Asdf")
 
 //a.onCompleted()
 b.onCompleted()
 
-//source.onCompleted()
+source.onCompleted()
 
 // 등록되어있는 옵저버블 그리고 source 옵저버블이 둘다 complete 되어야 complete 를 방출한다.
-
 
