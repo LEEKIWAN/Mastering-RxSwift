@@ -24,12 +24,61 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Action
+
+
+
 
 class RxDataSourcesViewController: UIViewController {
+    let viewModel = RxDataSourcesViewModel()
+    
+    @IBOutlet weak var addButton: UIButton!
+
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    private var subject: BehaviorRelay<[MySection]> = BehaviorRelay(value: sections)
+
+    let dataSource = RxTableViewSectionedReloadDataSource<MySection> { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath) as! CustomCell
+        cell.contentLabel.text = item
+        return cell
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        addButton.rx.tap
+            .bind(to: viewModel.input.buttonAction)
+            .disposed(by: rx.disposeBag)
         
+        // 섹션 타이틀
+        dataSource.titleForHeaderInSection = { dataSource, index in
+            dataSource.sectionModels[index].header
+        }
+        
+        
+        //오른쪽 인디케이터 문자와 인덱스참조가능
+        dataSource.sectionForSectionIndexTitle = { ds, title, index in
+            print(title)
+            print(index)
+            return ds.sectionModels.map { $0.header }.firstIndex(of: title) ?? 0
+        }
+
+        
+           
+        dataSource.sectionIndexTitles = { ds in return ds.sectionModels.map { $0.header } }
+
+        
+        viewModel.output.tableViewDatas
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: rx.disposeBag)
+        
+        
+  
+     
+//
+//        (TableViewSectionedDataSource<Section>) -> [String]
     }
 }
 

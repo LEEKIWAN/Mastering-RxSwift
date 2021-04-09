@@ -193,17 +193,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qaK-t1-y5E">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="724"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Custom" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="107" id="RtK-hN-CYa" customClass="CustomCell" customModule="MasteringRxSwift" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Custom" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelCell" rowHeight="107" id="RtK-hN-CYa" customClass="CustomCell" customModule="MasteringRxSwift" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="107"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RtK-hN-CYa" id="Ni1-ee-TFR">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="107"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="git-wL-saz">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="git-wL-saz">
                                                     <rect key="frame" x="33" y="16" width="348" height="75"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -223,17 +223,31 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2w-aF-HYB">
+                                <rect key="frame" x="0.0" y="812" width="414" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ckR-L2-kpr"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2pC-0P-ALE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="qaK-t1-y5E" firstAttribute="top" secondItem="2pC-0P-ALE" secondAttribute="top" id="8d8-Sk-H4P"/>
                             <constraint firstItem="2pC-0P-ALE" firstAttribute="trailing" secondItem="qaK-t1-y5E" secondAttribute="trailing" id="B63-Cu-ala"/>
+                            <constraint firstItem="P2w-aF-HYB" firstAttribute="leading" secondItem="2pC-0P-ALE" secondAttribute="leading" id="H9w-Sj-snY"/>
                             <constraint firstItem="qaK-t1-y5E" firstAttribute="leading" secondItem="2pC-0P-ALE" secondAttribute="leading" id="QXf-u4-bte"/>
-                            <constraint firstItem="2pC-0P-ALE" firstAttribute="bottom" secondItem="qaK-t1-y5E" secondAttribute="bottom" id="yrT-1F-AfC"/>
+                            <constraint firstItem="2pC-0P-ALE" firstAttribute="trailing" secondItem="P2w-aF-HYB" secondAttribute="trailing" id="Vvf-DE-5NX"/>
+                            <constraint firstItem="2pC-0P-ALE" firstAttribute="bottom" secondItem="P2w-aF-HYB" secondAttribute="bottom" id="w8G-5h-dmw"/>
+                            <constraint firstItem="P2w-aF-HYB" firstAttribute="top" secondItem="qaK-t1-y5E" secondAttribute="bottom" id="xnL-tv-fYG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="RxDataSources" id="BiO-Sd-wAn"/>
+                    <connections>
+                        <outlet property="addButton" destination="P2w-aF-HYB" id="sub-Ep-FDU"/>
+                        <outlet property="tableView" destination="qaK-t1-y5E" id="bar-0J-4Rb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRf-nr-Rnr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
