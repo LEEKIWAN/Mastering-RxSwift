@@ -68,6 +68,7 @@ class ActionViewController: UIViewController {
         
         
         
+        
 //        loginAction.elements
 //            .subscribe {
 //                print("ASdf")

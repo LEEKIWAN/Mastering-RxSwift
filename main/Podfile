@@ -13,7 +13,7 @@ target 'MasteringRxSwift' do
   pod 'NSObject+Rx'
 #  pod 'RxSwiftExt'
   pod 'Action'
-#  pod 'RxDataSources'
+  pod 'RxDataSources'
 #  pod "RxGesture"
 #  pod 'RxReachability'
 #  pod 'RxKeyboard'

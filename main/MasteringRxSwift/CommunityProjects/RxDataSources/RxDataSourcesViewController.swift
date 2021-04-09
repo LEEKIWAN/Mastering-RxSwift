@@ -23,13 +23,21 @@
 import UIKit
 import RxSwift
 import RxCocoa
-//import RxDataSources
+import RxDataSources
 
 class RxDataSourcesViewController: UIViewController {
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      // Do any additional setup after loading the view.
-   }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+}
+
+
+
+
+class CustomCell: UITableViewCell {
+    
+    @IBOutlet weak var contentLabel: UILabel!
+    
 }
