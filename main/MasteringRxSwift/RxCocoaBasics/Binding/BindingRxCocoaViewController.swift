@@ -40,6 +40,7 @@ class BindingRxCocoaViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     
+    var bt = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,12 +48,10 @@ class BindingRxCocoaViewController: UIViewController {
         valueField.becomeFirstResponder()
         
         valueField.rx.text
-            .bind(to: valueLabel.rx.text)       // 
+            .bind(to: valueLabel.rx.text)       //
             .disposed(by: disposeBag)
         
-        
-            
-        
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

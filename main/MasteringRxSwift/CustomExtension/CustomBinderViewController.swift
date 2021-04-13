@@ -77,6 +77,7 @@ class CustomBinderViewController: UIViewController {
         colorPicker.rx.selectedSegmentIndex
             .bind(to: valueLabel.rx.segmentedIndex)
             .disposed(by: bag)
+        
     }
 }
 

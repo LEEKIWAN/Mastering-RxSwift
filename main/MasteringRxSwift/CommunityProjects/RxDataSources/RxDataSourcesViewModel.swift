@@ -39,6 +39,11 @@ var sections = [
 
 class RxDataSourcesViewModel: NSObject {
     
+    let dataSource = RxTableViewSectionedReloadDataSource<MySection> { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath) as! CustomCell
+        cell.contentLabel.text = item
+        return cell
+    }
     
     struct Input {
         var buttonAction = PublishSubject<Void>()
@@ -46,6 +51,7 @@ class RxDataSourcesViewModel: NSObject {
     
     struct Output {
         var tableViewDatas = BehaviorRelay<[MySection]>(value: sections)
+        
     }
     
     let input = Input()
@@ -62,11 +68,6 @@ class RxDataSourcesViewModel: NSObject {
             addAction()
         })
         .disposed(by: rx.disposeBag)
-        
-
-        
-        
-        
     }
     
     
