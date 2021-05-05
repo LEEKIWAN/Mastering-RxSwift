@@ -5,6 +5,15 @@
       location = "container:"
       name = "Operators">
       <FileRef
+         location = "group:CaptureTest.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Result.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Result2.playground">
+      </FileRef>
+      <FileRef
          location = "group:create.playground">
       </FileRef>
    </Group>
