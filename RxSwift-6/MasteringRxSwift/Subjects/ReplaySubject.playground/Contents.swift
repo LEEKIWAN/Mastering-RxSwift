@@ -35,7 +35,29 @@ enum MyError: Error {
 }
 
 
+let replaySubject = ReplaySubject<String>.create(bufferSize: 3)
 
 
+replaySubject.onNext("one")
+replaySubject.onNext("two")
+replaySubject.onNext("three")
+
+replaySubject.subscribe {
+    print("1 >> ", $0)
+}
 
 
+replaySubject.onNext("four")
+replaySubject.onNext("five")
+
+
+replaySubject.subscribe {
+    print("2 >> ", $0)
+}
+
+//replaySubject.onCompleted()
+replaySubject.onError(MyError.error)
+
+replaySubject.subscribe {
+    print("3 >> ", $0)
+}

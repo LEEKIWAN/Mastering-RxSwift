@@ -38,5 +38,28 @@ enum MyError: Error {
 
 
 
+let subject = PublishSubject<String>()
 
 
+let o1 = subject.subscribe {
+    print(">> 1 ", $0)
+}
+
+subject.onNext("Hello")
+
+let o2 = subject.subscribe {
+    print(">> 2", $0)
+}
+
+subject.onNext("RxSwift")
+
+
+//subject.onCompleted()
+
+subject.onError(MyError.error)
+
+let o3 = subject.subscribe {
+    print(">> 3", $0)
+}
+
+subject.onNext("TTTT")

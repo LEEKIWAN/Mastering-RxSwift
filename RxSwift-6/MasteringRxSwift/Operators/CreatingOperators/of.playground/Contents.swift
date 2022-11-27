@@ -35,6 +35,13 @@ let kiwi = "🥝"
 
 
 
+Observable.of(apple, orange, kiwi)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
+
+
 
 
 

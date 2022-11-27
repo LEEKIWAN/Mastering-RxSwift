@@ -31,6 +31,8 @@ import RxSwift
 let disposeBag = DisposeBag()
 
 
-
-
-
+Observable<Int>.range(start: 0, count: 10)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)

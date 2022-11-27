@@ -29,9 +29,47 @@ import RxSwift
  # Disposables
  */
 
+// 리소스 해제, 실행취소에 쓰인다.
+
+var bag = DisposeBag()
+
+Observable<Int>.from([1, 2, 3])
+    .subscribe {
+        print($0)
+    } onError: { error in
+        print("error \(error)")
+    } onCompleted: {
+        print("completed")
+    } onDisposed: {
+        print("dispoed")
+    }
+    .disposed(by: bag)
+
+bag = DisposeBag()
 
 
+Observable<Int>.from([1, 2, 3])
+    .subscribe {
+        print($0)
+    }
 
 
+let disposable = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .subscribe {
+        print($0)
+    } onError: { error in
+        print("error \(error)")
+    } onCompleted: {
+        print("completed")
+    } onDisposed: {
+        print("dispoed")
+    }
+
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+    disposable.dispose()
+}
+
+// 직접 호출하는건 하지 말아야한다. takeUntil 과 같은 연산자를 사용해서 매모리 해제를 해야한다...
 
 

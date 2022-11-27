@@ -32,7 +32,11 @@ let disposeBag = DisposeBag()
 let fruits = ["🍏", "🍎", "🍋", "🍓", "🍇"]
 
 
-
+Observable<String>.from(fruits)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 
 

@@ -28,6 +28,9 @@ import RxSwift
  # AsyncSubject
  */
 
+// Async는 onComplete 됐을때 마지막 값만 옵저버에 전달 한다.
+// 에러인경우는 에러만 보냄..
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -35,6 +38,22 @@ enum MyError: Error {
 }
 
 
+let asyncSubject = AsyncSubject<String>()
 
+asyncSubject.onNext("one")
+asyncSubject.onNext("two")
+
+asyncSubject.subscribe {
+    print("1 >> ", $0)
+}
+
+asyncSubject.onNext("three")
+
+//asyncSubject.onError(MyError.error)
+asyncSubject.onCompleted()
+
+asyncSubject.subscribe {
+    print("2 >> ", $0)
+}
 
 

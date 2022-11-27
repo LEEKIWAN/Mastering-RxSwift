@@ -30,3 +30,17 @@ import RxSwift
 
 
 
+Observable<Int>.create { observer in
+    observer.onNext(1)
+    
+    observer.onNext(2)
+    
+    observer.onCompleted()
+    
+    return Disposables.create()
+}
+
+
+Observable.from([1, 2])
+
+

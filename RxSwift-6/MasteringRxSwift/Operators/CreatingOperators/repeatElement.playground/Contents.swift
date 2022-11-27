@@ -32,3 +32,10 @@ let disposeBag = DisposeBag()
 let element = "❤️"
 
 
+
+Observable<Int>.repeatElement(5)
+    .take(5)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)

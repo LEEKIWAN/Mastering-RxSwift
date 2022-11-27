@@ -36,7 +36,7 @@ let observable = Observable<String>.create { observer in
     observer.onNext("Hello")
     observer.onNext("Observable")
     
-    //observer.onError(MyError.unknown)
+//    observer.onError(MyError.unknown)
     
     observer.onCompleted()
     
@@ -44,7 +44,25 @@ let observable = Observable<String>.create { observer in
 }
 
 
+observable.subscribe(onNext: {
+    print($0)
+})
 
+
+let infallible = Infallible<String>.create { observer in
+    
+    observer(.next("Hello"))
+    observer(.next("Infallible"))
+    
+    observer(.completed)
+    
+    return Disposables.create()
+}
+
+
+infallible.subscribe(onNext: {
+    print($0)
+})
 
 
 

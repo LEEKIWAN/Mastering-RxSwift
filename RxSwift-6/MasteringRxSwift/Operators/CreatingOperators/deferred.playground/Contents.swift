@@ -37,10 +37,51 @@ var flag = true
 
 
 
+let ob = Observable<[String]>.deferred {
+    flag.toggle()
+    if flag {
+        return Observable.just(animals)
+    } else {
+        return Observable.just(fruits)
+    }
+}
 
 
+ob.subscribe({
+    print($0)
+})
+
+ob.subscribe({
+    print($0)
+})
+
+ob.subscribe({
+    print($0)
+})
 
 
+let create = Observable<[String]>.create {
+    flag.toggle()
+
+    if flag {
+        $0.onNext(animals)
+    } else {
+        $0.onNext(fruits)
+    }
+
+//    $0.onCompleted()
+    return Disposables.create()
+}
+
+create.subscribe({
+    print($0)
+})
 
 
+create.subscribe({
+    print($0)
+})
 
+create.subscribe({
+    print($0)
+})

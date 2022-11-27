@@ -28,9 +28,43 @@ import RxCocoa
 /*:
  # Relay
  */
+// subject 를 랩핑해서 만든 릴리에.. -> 완료되는 complete error 이벤트를 내보내지 않는다.
+
 
 let bag = DisposeBag()
 
+
+let publishRelay = PublishRelay<Int>()
+
+publishRelay.subscribe {
+    print("publish >> \($0)")
+}
+
+publishRelay.accept(1)
+
+
+let behaviorRelay = BehaviorRelay<Int>(value: 1)
+
+behaviorRelay.accept(3)
+
+behaviorRelay.subscribe({
+    print("behaviorRelay >> \($0)")
+})
+
+
+print(behaviorRelay.value) // 읽기 전용 속성이다.
+
+
+
+let replayRelay = ReplayRelay<Int>.create(bufferSize: 3)
+
+(0 ... 10).forEach {
+    replayRelay.accept($0)
+}
+
+replayRelay.subscribe({
+    print($0)
+})
 
 
 

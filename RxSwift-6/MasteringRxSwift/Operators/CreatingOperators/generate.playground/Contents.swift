@@ -28,13 +28,38 @@ import RxSwift
  # generate
  */
 
+// range 는 1씩 증가하는 정수만 가능하다.
+// generate는 range에서 불가능한 부분을 가능하게 한다. -> 커스터마이징가능함.. 정수뿐아니라 문자열도 가능하다.
+
+
 let disposeBag = DisposeBag()
 let red = "🔴"
 let blue = "🔵"
 
 
+Observable<Int>.generate(initialState: 0, condition: {
+    return $0 <= 10
+}, iterate: {
+    return $0 + 3
+})
+.subscribe({
+    print($0)
+})
+.disposed(by: disposeBag)
 
 
 
-
-
+Observable<String>.generate(initialState: red, condition: {
+    return $0.count < 14
+}, iterate: {
+    let last = $0.last!
+    if String(last) == red {
+        return $0 + blue
+    } else {
+        return $0 + red
+    }
+})
+.subscribe({
+    print($0)
+})
+.disposed(by: disposeBag)

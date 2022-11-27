@@ -35,12 +35,37 @@ enum MyError: Error {
 }
 
 
+let behavior = BehaviorSubject<String>(value: "one")
+
+
+behavior.onNext("1")
+
+behavior.onNext("2")
+
+
+behavior.subscribe {
+    print("1 >> ", $0)
+}
 
 
 
+behavior.onNext("3")
+
+behavior.subscribe {
+    print("2 >> ", $0)
+}
 
 
+behavior.onCompleted()
+//behavior.onError(MyError.error)
 
 
+behavior.subscribe {
+    print("3 >> ", $0)
+}
 
+
+let t = try? behavior.value()
+
+print(t)
 
