@@ -28,7 +28,15 @@ import RxSwift
  # take
  */
 
+// take 갯수만큼 이벤트를 방출한다. 
+
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
+Observable<Int>.from(numbers)
+    .take(5)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)

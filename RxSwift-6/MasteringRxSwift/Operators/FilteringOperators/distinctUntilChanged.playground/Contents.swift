@@ -43,7 +43,28 @@ let persons = [
 ]
 
 
+Observable<Int>.from(numbers)
+    .distinctUntilChanged()
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
+
+Observable<(Int, String)>.from(tuples)
+    .distinctUntilChanged({
+        $0.0
+    })
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 
+Observable<Person>.from(persons)
+    .distinctUntilChanged { $0.age == $1.age }
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 

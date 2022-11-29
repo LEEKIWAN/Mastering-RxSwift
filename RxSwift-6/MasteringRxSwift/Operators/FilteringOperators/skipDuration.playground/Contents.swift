@@ -28,12 +28,14 @@ import RxSwift
  # skip(duration:scheduler:)
  */
 
+// 첫 이벤트를 방출한 시점부터 3초간 무시한다. 타임은 항상 밀리세컨드의 오차가 있다. 
 
 let disposeBag = DisposeBag()
 
 let o = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
 
 o.take(10)
+    .skip(.seconds(3), scheduler: MainScheduler.instance)
     .subscribe { print($0) }
     .disposed(by: disposeBag)
 

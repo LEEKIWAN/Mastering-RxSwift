@@ -27,20 +27,42 @@ import RxSwift
 /*:
  # take(until:)
  */
+// 넥스트 이벤트를 방출하기 전까지 원본 옵저버블이 방출하는 이벤트를 전달한다.
 
 let disposeBag = DisposeBag()
 
+let subject = PublishSubject<Int>()
+let trigger = PublishSubject<Void>()
+
+// first
+
+//subject
+//    .take(until: trigger)
+//    .subscribe({
+//    print($0)
+//})
+//.disposed(by: disposeBag)
+//
+//subject.onNext(0)
+//subject.onNext(1)
 
 
+// take until 은 take while 의 반대 격이다.
+
+// second
+
+subject
+    .take(until: {
+        $0 > 5
+    }, behavior: .exclusive)
+    .subscribe({
+    print($0)
+})
+.disposed(by: disposeBag)
 
 
-
-
-
-
-
-
-
-
+subject.onNext(1)
+subject.onNext(5)
+subject.onNext(6)
 
 

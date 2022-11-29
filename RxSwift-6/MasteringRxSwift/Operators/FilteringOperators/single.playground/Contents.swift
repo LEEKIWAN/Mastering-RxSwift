@@ -27,11 +27,29 @@ import RxSwift
 /*:
  # single
  */
+// 하나의 이벤트만 전달하는걸 보장한다.
+
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
+Observable<Int>.from(numbers)
+//    .single()
+    .single({ $0 == 4 })
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 
+let subject = PublishSubject<Int>()
 
+subject.single()
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
+
+subject.onNext(1)
+//subject.onCompleted()

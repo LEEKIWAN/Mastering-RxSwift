@@ -28,10 +28,30 @@ import RxSwift
  # takeLast
  */
 
+// 마지막 n개의 이벤트를 전달하기 때문에 버퍼에 항상 저장해놓고 있다.
+// 때문에 complete 이벤트가 전달되어야 버퍼에 있는 이벤트를 방출할수가 있다.
+// Error 일경우 에러 이벤트만 방출된다.
+
+// 전달시점이 마지막이다..!!!
+
+enum MyError: Error {
+    case error
+}
+
 let disposeBag = DisposeBag()
+let subject = PublishSubject<Int>()
+
+subject.takeLast(2)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 
+subject.onNext(1)
+subject.onNext(2)
+subject.onNext(3)
+subject.onNext(4)
 
-
-
-
+//subject.onCompleted()
+subject.onError(MyError.error)

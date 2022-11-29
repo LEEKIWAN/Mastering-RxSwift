@@ -33,7 +33,10 @@ let disposeBag = DisposeBag()
 
 let o = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
 
-o.subscribe { print($0) }
+o
+    .take(for: .seconds(2), scheduler: MainScheduler.instance)
+    .subscribe { print($0) }
+    
     .disposed(by: disposeBag)
 
 

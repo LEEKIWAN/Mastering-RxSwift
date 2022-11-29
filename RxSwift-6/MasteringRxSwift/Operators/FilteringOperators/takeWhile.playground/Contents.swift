@@ -28,10 +28,17 @@ import RxSwift
  # take(while:)
  */
 
+// skip while 처럼 predicate 에서 false 가 되면 방출하지 않는다.
+// behavior: 마지막으로 확인값을 방출할지 안할지 결정한다.
+
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
-
-
+Observable<Int>.from(numbers)
+    .take(while: { $0 < 5 }, behavior: .inclusive)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 

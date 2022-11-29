@@ -28,21 +28,32 @@ import RxSwift
  # throttle
  */
 
+
+// latest 변수 ..-> 보통 true 를 사용한다.
+// true: 타이머 주기가 되면, 최근에 방출된값이 있다면 방출한다.
+// false: 타이머 주기가 끝나면, 끝난 후 방출된 값을 방출한다.
+
+
 let disposeBag = DisposeBag()
 
 let buttonTap = Observable<String>.create { observer in
    DispatchQueue.global().async {
-      for i in 1...10 {
-         observer.onNext("Tap \(i)")
-         Thread.sleep(forTimeInterval: 0.3)
-      }
-      
-      Thread.sleep(forTimeInterval: 1)
-      
-      for i in 11...20 {
-         observer.onNext("Tap \(i)")
-         Thread.sleep(forTimeInterval: 0.5)
-      }
+       
+       
+       observer.onNext("one")
+       
+       Thread.sleep(forTimeInterval: 0.5)
+       
+       observer.onNext("two")
+       
+//       Thread.sleep(forTimeInterval: 0.5)
+//
+//       observer.onNext("three")
+//
+//
+//       Thread.sleep(forTimeInterval: 0.5)
+//
+//       observer.onNext("four")
       
       observer.onCompleted()
    }
@@ -52,7 +63,10 @@ let buttonTap = Observable<String>.create { observer in
    }
 }
 
-buttonTap    
+
+buttonTap
+    .debug()
+    .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
    .subscribe { print($0) }
    .disposed(by: disposeBag)
 

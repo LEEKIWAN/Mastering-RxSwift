@@ -28,8 +28,16 @@ import RxSwift
  # ignoreElements
  */
 
+// Completed Event or Error 이벤트 하나만 나온다.
+
 let disposeBag = DisposeBag()
 let fruits = ["🍏", "🍎", "🍋", "🍓", "🍇"]
 
 
 
+Observable<String>.from(fruits)
+    .ignoreElements()
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)

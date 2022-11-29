@@ -29,6 +29,29 @@ import RxSwift
  # skip(until:)
  */
 
+// parameter ObservableType이 새로운 이벤트를 방출할때까지 스킵한다.
+
+
 let disposeBag = DisposeBag()
+
+
+let trigger = PublishSubject<Void>()
+let subject = PublishSubject<Int>()
+
+subject
+    .skip(until: trigger)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
+
+
+subject.onNext(1)
+subject.onNext(2) // 무시된다.
+
+trigger.onNext(())
+
+subject.onNext(3)
+subject.onCompleted()
 
 

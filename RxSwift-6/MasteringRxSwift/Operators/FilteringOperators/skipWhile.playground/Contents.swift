@@ -27,11 +27,18 @@ import RxSwift
 /*:
  # skip(while:)
  */
+// while 문이 참이면 무시된다. 한번이라도 false 가 되면 스킵문의 조건을 보지 않는다. // 필터랑 비교
 
 let disposeBag = DisposeBag()
 let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
-
-
-
+Observable<Int>.from(numbers)
+    .skip(while: { val in
+        print(val)
+        return val < 5
+    })
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
