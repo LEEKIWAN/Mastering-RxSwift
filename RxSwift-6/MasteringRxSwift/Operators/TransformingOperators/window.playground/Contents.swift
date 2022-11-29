@@ -28,15 +28,24 @@ import RxSwift
  # window
  */
 
+// Buffer와 다르게 innerObservable이 observable이다.
+
 let disposeBag = DisposeBag()
+let subject = PublishSubject<Int>()
+
+
+subject.window(timeSpan: .seconds(3), count: 3, scheduler: MainScheduler.instance)
+    .subscribe({
+        $0.element?.subscribe({
+            print($0)
+        })
+        .disposed(by: disposeBag)
+    })
+    .disposed(by: disposeBag)
 
 
 
-
-
-
-
-
-
-
+(0 ... 10).forEach {
+    subject.onNext($0)
+}
 

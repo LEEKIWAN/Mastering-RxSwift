@@ -27,15 +27,26 @@ import RxSwift
 /*:
  # groupBy
  */
+// 조건 에 맞게 그룹화 한다 근데 GroupedObservable을 리턴한다.
 
 let disposeBag = DisposeBag()
 let words = ["Apple", "Banana", "Orange", "Book", "City", "Axe"]
 
 
-
-
-
-
-
-
+Observable<String>.from(words)
+    .groupBy { $0.first! }
+    .flatMap({ $0.toArray() })
+//    .subscribe({
+//        let key = $0.element?.key
+//        print("--- \(key)")
+//
+//        $0.element?.subscribe({
+//            print("\(key) \($0)")
+//        })
+//        .disposed(by: disposeBag)
+//    })
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 

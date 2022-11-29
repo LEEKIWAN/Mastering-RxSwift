@@ -27,7 +27,24 @@ import RxSwift
 /*:
  # toArray
  */
+// Complete 되기전까지 방출하지않고 버퍼에 담아둔다.
+
 
 let disposeBag = DisposeBag()
 
 
+
+let subject = PublishSubject<Int>()
+
+subject
+    .toArray()
+    .subscribe({
+    print($0)
+})
+.disposed(by: disposeBag)
+
+subject.onNext(1)
+subject.onNext(2)
+subject.onNext(3)
+
+//subject.onCompleted()

@@ -28,6 +28,11 @@ import RxSwift
  # concatMap
  */
 
+// flatMap 은 interleaving 동시에 이벤트를 처리한다.
+
+// concatMap 은 interleaving이 발생하지 않는다. (방출한 innerObservable순으로 이벤트를 처리한다)
+
+
 let disposeBag = DisposeBag()
 
 let redCircle = "🔴"
@@ -38,8 +43,9 @@ let redHeart = "❤️"
 let greenHeart = "💚"
 let blueHeart = "💙"
 
+
 Observable.from([redCircle, greenCircle, blueCircle])
-    .flatMap { circle -> Observable<String> in
+    .concatMap { circle -> Observable<String> in
         switch circle {
         case redCircle:
             return Observable.repeatElement(redHeart)

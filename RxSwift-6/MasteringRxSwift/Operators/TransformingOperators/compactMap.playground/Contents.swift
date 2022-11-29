@@ -27,12 +27,16 @@ import RxSwift
 /*:
  # compactMap
  */
+// map의 기능도 가지고 있다.
+// 값이 nil이면 무시한다. nil이 아니면 언랩핑에서 전달한다.
+
 
 let disposeBag = DisposeBag()
 
 let subject = PublishSubject<String?>()
 
 subject
+    .compactMap({ $0 })
     .subscribe { print($0) }
     .disposed(by: disposeBag)
 

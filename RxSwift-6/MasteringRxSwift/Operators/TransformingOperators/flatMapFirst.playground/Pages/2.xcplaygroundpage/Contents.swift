@@ -30,6 +30,10 @@ import RxSwift
  # flatMapFirst #2
  */
 
+// FlatMapFirst는 innerObservable에서 제일 먼저 전달한 이벤트를 resultObservable로 전달한다.
+// 주기가 있어서 처음으로 방출된 resultObservable이 끝나면 다음으로 전달된 resultObservable을 방출한다.
+
+
 let disposeBag = DisposeBag()
 
 let redCircle = "🔴"
@@ -66,7 +70,7 @@ sourceObservable
 
 sourceObservable.onNext(redCircle)
 
-DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
     sourceObservable.onNext(greenCircle)
 }
 

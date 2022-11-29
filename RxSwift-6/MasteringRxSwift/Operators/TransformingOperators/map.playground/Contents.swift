@@ -32,5 +32,10 @@ let disposeBag = DisposeBag()
 let skills = ["Swift", "SwiftUI", "RxSwift"]
 
 
-
-
+Observable.from(skills)
+    .map { $0 + " Hello" }
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
+     

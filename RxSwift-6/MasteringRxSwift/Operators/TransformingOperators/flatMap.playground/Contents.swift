@@ -27,6 +27,10 @@ import RxSwift
 /*:
  # flatMap
  */
+// InnerObservable
+// ResultObservable -> InnerObservable을 합쳐서 하나의 옵저버블로 만들어주는 Observable
+// Interleaving -> 순서가 뒤죽박죽...  나중에 Concat 이랑 비교해보자.
+// flatten -> 하나로 만들어준다.
 
 let disposeBag = DisposeBag()
 
@@ -38,3 +42,24 @@ let redHeart = "❤️"
 let greenHeart = "💚"
 let blueHeart = "💙"
 
+
+Observable<String>.from([redCircle, greenCircle, blueCircle])
+    .flatMap({ circle -> Observable<String> in
+        switch circle {
+        case redCircle:
+            return Observable<String>.repeatElement(redHeart)
+                .take(5)
+        case greenCircle:
+            return Observable<String>.repeatElement(greenHeart)
+                .take(5)
+        case blueCircle:
+            return Observable<String>.repeatElement(blueHeart)
+                .take(5)
+        default:
+            return Observable.just("")
+        }
+    })
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)

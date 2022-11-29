@@ -28,6 +28,8 @@ import RxSwift
  # flatMapLatest
  */
 
+// 방출되고있는 InnerObservable 이 있다면 종료시키고, 새로 전달한 Observable을 InnerObservable을 대체해서 방출한다.
+
 let disposeBag = DisposeBag()
 
 let redCircle = "🔴"
@@ -42,7 +44,7 @@ let sourceObservable = PublishSubject<String>()
 let trigger = PublishSubject<Void>()
 
 sourceObservable
-    .flatMap { circle -> Observable<String> in
+    .flatMapLatest { circle -> Observable<String> in
         switch circle {
         case redCircle:
             return Observable<Int>.interval(.milliseconds(200), scheduler: MainScheduler.instance)
@@ -63,7 +65,9 @@ sourceObservable
     .subscribe { print($0) }
     .disposed(by: disposeBag)
 
+
 sourceObservable.onNext(redCircle)
+
 
 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
     sourceObservable.onNext(greenCircle)

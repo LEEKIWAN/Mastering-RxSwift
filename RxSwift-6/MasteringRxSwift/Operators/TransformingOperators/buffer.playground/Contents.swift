@@ -28,16 +28,20 @@ import RxSwift
  # buffer
  */
 
+// controlled buffering
+
 let disposeBag = DisposeBag()
 
+let subject = PublishSubject<Int>()
 
 
+subject.buffer(timeSpan: .seconds(5), count: 3, scheduler: MainScheduler.instance)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: disposeBag)
 
 
-
-
-
-
-
-
-
+(0 ... 10).forEach {
+    subject.onNext($0)
+}
