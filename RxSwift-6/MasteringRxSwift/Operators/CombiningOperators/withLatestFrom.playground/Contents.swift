@@ -28,6 +28,8 @@ import RxSwift
  # withLatestFrom
  */
 
+// 회원가입 버튼을 누르면 택스트필드에 있는 값을 가져올때 쓰인다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -39,8 +41,30 @@ let data = PublishSubject<String>()
 
 
 
+//trigger
+//    .withLatestFrom(data)
+//    .subscribe({
+//    print($0)
+//})
+//.disposed(by: bag)
+
+
+trigger.withLatestFrom(data) {
+    return $1
+}.subscribe({
+    print($0)
+})
+.disposed(by: bag)
 
 
 
+data.onNext("one")
+data.onNext("two")
+
+trigger.onNext(())
+trigger.onNext(())
+
+
+trigger.onCompleted()
 
 

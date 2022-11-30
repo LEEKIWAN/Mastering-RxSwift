@@ -28,12 +28,25 @@ import RxSwift
  # concat
  */
 
+// 합치는 것이며 하나의 옵저버블이 끝난 다음에 다음 옵저버블을 방출한다. 순서가 있다.
+
 let bag = DisposeBag()
 let fruits = Observable.from(["🍏", "🍎", "🥝", "🍑", "🍋", "🍉"])
 let animals = Observable.from(["🐶", "🐱", "🐹", "🐼", "🐯", "🐵"])
 
 
 
+Observable<String>.concat(fruits, animals)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
+
+fruits.concat(animals)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
 
 
 

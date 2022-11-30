@@ -113,7 +113,6 @@
 		AA26A8182727144B00C35F53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA26A81A2727144B00C35F53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA26A8212727183900C35F53 /* Hello.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Hello.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		AA7C9F04272A5E3300EBB9F2 /* sample.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = sample.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA7C9F05272A5E7300EBB9F2 /* sampleLatest.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = sampleLatest.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA7C9F0A272A614600EBB9F2 /* toArray.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = toArray.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA7C9F0B272A621800EBB9F2 /* map.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = map.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -863,7 +862,6 @@
 				AABC4C832729C35700DC90FA /* distinctUntilChanged.playground */,
 				AABC4C842729C84500DC90FA /* debounce.playground */,
 				AABC4C852729C93000DC90FA /* throttle.playground */,
-				AA7C9F04272A5E3300EBB9F2 /* sample.playground */,
 				AA7C9F05272A5E7300EBB9F2 /* sampleLatest.playground */,
 			);
 			path = FilteringOperators;

@@ -39,9 +39,13 @@ let strings = PublishSubject<String>()
 
 
 
+Observable.zip(numbers, strings)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
 
 
 
-
-
-
+numbers.onNext(0)
+strings.onNext("one")

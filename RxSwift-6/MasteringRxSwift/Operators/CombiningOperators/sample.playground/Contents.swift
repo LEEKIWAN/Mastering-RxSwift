@@ -28,6 +28,9 @@ import RxSwift
  # sample
  */
 
+// withLatestFrom 과 trigger, data Observable 이 반대다.
+// 차이점 -> 반대, trigger 여러번 되어도 최신 데이터 한번만 방출된다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -39,7 +42,23 @@ let data = PublishSubject<String>()
 
 
 
+data
+    .sample(trigger)
+    .subscribe({
+    print($0)
+})
+.disposed(by: bag)
 
 
+data.onNext("one")
+
+data.onNext("two")
+
+trigger.onNext(())
+trigger.onNext(())
+trigger.onNext(())
 
 
+//trigger.onCompleted()
+data.onCompleted()
+//trigger.onCompleted()

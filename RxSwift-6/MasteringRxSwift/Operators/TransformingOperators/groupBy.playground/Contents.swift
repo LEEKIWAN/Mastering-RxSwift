@@ -34,17 +34,8 @@ let words = ["Apple", "Banana", "Orange", "Book", "City", "Axe"]
 
 
 Observable<String>.from(words)
-    .groupBy { $0.first! }
+    .groupBy(keySelector: { $0.first! })
     .flatMap({ $0.toArray() })
-//    .subscribe({
-//        let key = $0.element?.key
-//        print("--- \(key)")
-//
-//        $0.element?.subscribe({
-//            print("\(key) \($0)")
-//        })
-//        .disposed(by: disposeBag)
-//    })
     .subscribe({
         print($0)
     })

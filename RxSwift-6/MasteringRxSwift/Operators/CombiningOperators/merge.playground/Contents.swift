@@ -27,8 +27,11 @@ import RxSwift
 /*:
  # merge
  */
+// 여러 옵저버블을 하나의 옵저버블로 바꾼다.
+// sourceObservable이 모두 complete 해야 resultObservable이 complete 된다.
 
 let bag = DisposeBag()
+
 
 enum MyError: Error {
    case error
@@ -43,10 +46,32 @@ let negativeNumbers = BehaviorSubject(value: -1)
 
 
 
+//Observable<Int>.merge([oddNumbers, evenNumbers, negativeNumbers])
+//    .subscribe({
+//        print($0)
+//    })
+//    .disposed(by: bag)
+//
+//evenNumbers.onNext(4)
+//
+//negativeNumbers.onNext(-2)
 
 
+Observable<BehaviorSubject<Int>>.of(oddNumbers, evenNumbers, negativeNumbers)
+    .merge(maxConcurrent: 2)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
 
 
+oddNumbers.onNext(3)
+evenNumbers.onNext(4)
+
+
+negativeNumbers.onNext(5) 
+
+//oddNumbers.onCompleted()
 
 
 

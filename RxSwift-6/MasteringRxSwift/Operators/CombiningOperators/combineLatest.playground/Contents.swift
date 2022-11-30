@@ -28,6 +28,8 @@ import RxSwift
  # combineLatest
  */
 
+// sourceObservable이 모두 complete 해야 resultObservable이 complete 된다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -39,7 +41,34 @@ let languages = PublishSubject<String>()
 
 
 
+//Observable.combineLatest([greetings, languages])
+//    .subscribe({
+//        print($0)
+//    })
+//    .disposed(by: bag)
 
+//Observable.combineLatest(greetings, languages) { lhs, rhs  in
+//    return lhs + rhs
+//}
+//.subscribe({
+//    print($0)
+//})
+//.disposed(by: bag)
+
+
+Observable.combineLatest([greetings, languages]) {
+    return $0.first! + $0.last!
+}
+.subscribe({
+    print($0)
+})
+.disposed(by: bag)
+
+greetings.onNext("hello")
+
+languages.onNext("swift")
+
+greetings.onNext("hollo")
 
 
 

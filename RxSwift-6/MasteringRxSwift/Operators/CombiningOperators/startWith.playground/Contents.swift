@@ -35,3 +35,9 @@ let numbers = [1, 2, 3, 4, 5]
 
 
 
+Observable<Int>.from(numbers)
+    .startWith(0, -1)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)

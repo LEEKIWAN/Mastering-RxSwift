@@ -28,6 +28,8 @@ import RxSwift
  # switchLatest
  */
 
+// 방출하는 값이 Observable 타입이여한다.!! sourceObservable이 방출하는값을 방출한다. ->
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -39,6 +41,30 @@ let b = PublishSubject<String>()
 
 
 
+let source = PublishSubject<PublishSubject<String>>()
+
+//a.onNext("d")
+
+source
+    .switchLatest()
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
 
 
+a.onNext("one")
 
+source.onNext(a)
+
+a.onNext("a one")
+b.onNext("b one")
+
+source.onNext(b)
+
+a.onNext("a one")
+b.onNext("b one")
+
+
+b.onCompleted()
+source.onCompleted()
