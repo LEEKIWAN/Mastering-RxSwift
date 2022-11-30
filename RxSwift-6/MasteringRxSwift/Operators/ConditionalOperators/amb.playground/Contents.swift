@@ -28,6 +28,9 @@ import RxSwift
  # amb
  */
 
+// 여러서버에 요청을하고 응답 받은 가장 빠른 값을 이용할수 있다.
+
+// 가장먼저 방출한 소스옵저버블을 이용하겠다.
 
 let bag = DisposeBag()
 
@@ -40,9 +43,16 @@ let b = PublishSubject<String>()
 let c = PublishSubject<String>()
 
 
+Observable<String>.amb([a, b, c])
+    .subscribe {
+        print($0)
+    }
+    .disposed(by: bag)
 
 
+a.onNext("a")
+
+b.onNext("b")
 
 
-
-
+a.onCompleted()
