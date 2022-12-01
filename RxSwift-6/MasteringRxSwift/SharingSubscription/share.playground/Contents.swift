@@ -27,9 +27,10 @@ import RxSwift
 /*:
  # share
  */
+// refCount처럼 자동으로 connect , disconnect 해준다.
 
 let bag = DisposeBag()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug()
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).debug().share(scope: .forever)
 
 let observer1 = source
     .subscribe { print("🔵", $0) }

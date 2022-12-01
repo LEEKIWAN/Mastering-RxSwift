@@ -27,10 +27,12 @@ import RxSwift
 /*:
  # publish
  */
+// publish 는 multicast에 비해서 Subject를 만들어도 되지 않아도 되는 장점이 있지만, 아직 connect를 직접 호출해줘야한다.
 
 let bag = DisposeBag()
-let subject = PublishSubject<Int>()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).multicast(subject)
+//let subject = PublishSubject<Int>()  필요 없다.
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).publish()
+    
 
 source
     .subscribe { print("🔵", $0) }

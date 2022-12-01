@@ -28,21 +28,26 @@ import RxSwift
 /*:
  # replay, replayAll
  */
+// 공유시퀀스 이기때문에 구독시점에 못받은 이벤트가 있을수 있다.
+// 구독 전에 방출 한 이벤트가 있다면, 버퍼에 저장해놨다가 구독할때 전달하는 연산자
+// replayAll 은 버퍼사이즈가 무한대기 때문에 가급적이면 사용하지 말아야한다.
+
 
 let bag = DisposeBag()
 let subject = PublishSubject<Int>()
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).multicast(subject)
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).replay(3)
 
 source
     .subscribe { print("🔵", $0) }
     .disposed(by: bag)
 
 source
-    .delaySubscription(.seconds(3), scheduler: MainScheduler.instance)
+    .delaySubscription(.seconds(4), scheduler: MainScheduler.instance)
     .subscribe { print("🔴", $0) }
     .disposed(by: bag)
 
 source.connect()
+
 
 
 

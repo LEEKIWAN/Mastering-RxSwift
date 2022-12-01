@@ -27,11 +27,17 @@ import RxSwift
 /*:
  # multicast
  */
+// 시퀀스를 공유한다.
+// 공유 시퀀스, 시퀀스는 한번만 만들어진다.
+// 하나의 옵저버블을 공유한다.
+// 서브젝트를 만들고 커넥트 직접 호출해야하기때문에 잘 사용하지 않는다.
+
+// Connect 호출 할 때 시퀀스가 만들어진다.
 
 let bag = DisposeBag()
 let subject = PublishSubject<Int>()
 
-let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5)
+let source = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).take(5).multicast(subject)
 
 source
     .subscribe { print("🔵", $0) }
@@ -42,22 +48,24 @@ source
     .subscribe { print("🔴", $0) }
     .disposed(by: bag)
 
+source.connect()
+    .disposed(by: bag)
 
 
 
+DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
+    source
+        .subscribe { print("🔵", $0) }
+        .disposed(by: bag)
 
+    source
+        .delaySubscription(.seconds(3), scheduler: MainScheduler.instance)
+        .subscribe { print("🔴", $0) }
+        .disposed(by: bag)
 
+    source.connect()
+        .disposed(by: bag)
+    
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+})
