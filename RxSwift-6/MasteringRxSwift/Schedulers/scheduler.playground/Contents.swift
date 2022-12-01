@@ -27,10 +27,17 @@ import RxSwift
 /*:
  # Scheduler
  */
+// subsribe(on ) 함수는 옵저버블이 시작되는 시점의 쓰레드를 지정한다.
+// observe(on ) 함수는 다음 연산가 실행될 쓰레드를 지정한다.
+
+
+//let scheduler = ConcurrentDispatchQueueScheduler(queue: DispatchQueue.global())
+let scheduler = SerialDispatchQueueScheduler(queue: DispatchQueue.global(), internalSerialQueueName: "kk")
 
 let bag = DisposeBag()
 
 Observable.of(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    
     .filter { num -> Bool in
         print(Thread.isMainThread ? "Main Thread" : "Background Thread", ">> filter")
         return num.isMultiple(of: 2)
@@ -39,3 +46,10 @@ Observable.of(1, 2, 3, 4, 5, 6, 7, 8, 9)
         print(Thread.isMainThread ? "Main Thread" : "Background Thread", ">> map")
         return num * 2
     }
+//    .subscribe(on: scheduler)
+    .observe(on: scheduler)
+    .subscribe({
+        print(Thread.isMainThread ? "Main Thread" : "Background Thread", ">> subscribe")
+        print($0)
+    })
+    .disposed(by: bag)
