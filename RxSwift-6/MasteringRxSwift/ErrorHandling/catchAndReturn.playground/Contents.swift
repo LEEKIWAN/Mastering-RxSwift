@@ -28,6 +28,9 @@ import RxSwift
  # catchAndReturn
  */
 
+// catchAndReturn 기본값이 있다. 항상 동일한 값이기 때문에 단점이있다.
+// 그외 커스텀 하고싶을경우 catch 연산자를 쓴다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -37,7 +40,11 @@ enum MyError: Error {
 let subject = PublishSubject<Int>()
 
 subject
+    .catchAndReturn(100)
     .subscribe { print($0) }
     .disposed(by: bag)
+
+subject.onNext(0)
+subject.onNext(1)
 
 subject.onError(MyError.error)

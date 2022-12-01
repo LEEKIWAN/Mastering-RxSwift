@@ -28,6 +28,7 @@ import RxSwift
  # catch(_:)
  */
 
+// 네트워크 요청시 실패했을경우 로컬캐시를 사용하거나 기본값을 설정할때 쓴다.
 
 let bag = DisposeBag()
 
@@ -38,8 +39,23 @@ enum MyError: Error {
 let subject = PublishSubject<Int>()
 let recovery = PublishSubject<Int>()
 
-subject
-    .subscribe { print($0) }
+
+subject.catch { _ in
+    return recovery
+}
+    .subscribe({
+        print($0)
+    })
     .disposed(by: bag)
 
+subject.onNext(0)
+subject.onNext(1)
+
+subject.onError(MyError.error)
+
+subject.onNext(3)
+
+recovery.onNext(10)
+recovery.onNext(11)
+recovery.onCompleted()
 

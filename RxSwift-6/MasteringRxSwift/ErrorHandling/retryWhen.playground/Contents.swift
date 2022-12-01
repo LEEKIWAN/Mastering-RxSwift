@@ -28,6 +28,9 @@ import RxSwift
  # retry(when:)
  */
 
+// 네트워크 실패해서 다시 요청 하고 할때, 특정 이벤트가 있을때만 요청할때 사용한다.
+// trigger가 이벤트를 방출할때까지 재시도 하지 않는다.
+
 
 let bag = DisposeBag()
 
@@ -58,9 +61,15 @@ let source = Observable<Int>.create { observer in
 let trigger = PublishSubject<Void>()
 
 source
+    .retry(when: { _ in
+        return trigger
+    })
     .subscribe { print($0) }
     .disposed(by: bag)
 
 
+trigger.onNext(())
+trigger.onNext(())
+trigger.onNext(())
 
 

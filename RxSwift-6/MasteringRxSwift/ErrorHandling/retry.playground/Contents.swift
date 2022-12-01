@@ -28,6 +28,11 @@ import RxSwift
  # retry
  */
 
+// retry 는 무한루프이기때문에 maxCount를 설정해서 사용해야 한다.
+// 네트워크 실패해서 다시 요청 했고자 할때 시도 count를 써서 사용한다.
+
+// retry 값은 + 1 해서 넣는다.
+
 let bag = DisposeBag()
 
 enum MyError: Error {
@@ -49,12 +54,15 @@ let source = Observable<Int>.create { observer in
     observer.onNext(2)
     observer.onCompleted()
     
+    
+    
     return Disposables.create {
         print("#\(currentAttempts) END")
     }
 }
 
 source
+    .retry(10)
     .subscribe { print($0) }
     .disposed(by: bag)
 
