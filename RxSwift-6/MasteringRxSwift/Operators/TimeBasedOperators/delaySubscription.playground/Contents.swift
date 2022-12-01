@@ -37,7 +37,21 @@ func currentTimeString() -> String {
 }
 
 
+let subject = PublishSubject<Int>()
 
+subject.debug()
+    .delaySubscription(.seconds(5), scheduler: MainScheduler.instance)
+    .take(5)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
+
+Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+    .subscribe({
+        subject.onNext($0.element!)
+    })
+    .disposed(by: bag)
 
 
 

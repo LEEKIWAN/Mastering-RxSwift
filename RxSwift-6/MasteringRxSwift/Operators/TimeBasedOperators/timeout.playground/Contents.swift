@@ -35,6 +35,36 @@ let subject = PublishSubject<Int>()
 
 
 
+//subject.timeout(.seconds(4), scheduler: MainScheduler.instance)
+//    .subscribe({
+//        print($0)
+//    })
+//    .disposed(by: bag)
+//
 
 
+let other = PublishSubject<Int>()
+
+subject.timeout(.seconds(1), other: other, scheduler: MainScheduler.instance)
+    .subscribe({
+        print($0)
+    })
+    .disposed(by: bag)
+
+
+
+
+
+
+Observable<Int>.timer(.seconds(2), period: .seconds(6), scheduler: MainScheduler.instance)
+    .subscribe({
+        subject.onNext($0.element!)
+    })
+    .disposed(by: bag)
+
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+    other.onNext(4)
+    other.onCompleted()
+})
 

@@ -46,11 +46,17 @@ let source = Observable<String>.create { observer in
     }
 }
 .debug()
+.share()
 
 
+
 source.subscribe().disposed(by: bag)
-source.subscribe().disposed(by: bag)
-source.subscribe().disposed(by: bag)
+//source.subscribe().disposed(by: bag)
+//source.subscribe().disposed(by: bag)
+
+//DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+//    source.subscribe().disposed(by: bag)
+//})
 
 
 
