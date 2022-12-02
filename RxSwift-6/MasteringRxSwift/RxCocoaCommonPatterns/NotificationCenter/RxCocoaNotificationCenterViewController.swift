@@ -48,6 +48,47 @@ class RxCocoaNotificationCenterViewController: UIViewController {
         
         
         
+        
+        let keyboardWillShow = NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+            .map { notification in
+                return (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
+            }
+        
+        let keyboardWillHide = NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .map { _ in
+                return CGFloat(0)
+            }
+        
+        
+        Observable<CGFloat>.merge([keyboardWillShow, keyboardWillHide])
+            .subscribe(onNext: { [weak self] keyboardHeight in
+                guard let self = self else { return }
+                var inset = self.textView.contentInset
+                inset.bottom = keyboardHeight
+                
+                var scrollInset = self.textView.scrollIndicatorInsets
+                scrollInset.bottom = keyboardHeight
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.textView.contentInset = inset
+                    self.textView.scrollIndicatorInsets = scrollInset
+                })
+            })
+            .disposed(by: bag)
+        
+        
+        
+//        var inset = strongSelf.textView.contentInset
+//        inset.bottom = height
+//
+//        var scrollInset = strongSelf.textView.scrollIndicatorInsets
+//        scrollInset.bottom = height
+//
+//        UIView.animate(withDuration: 0.3, animations: {
+//            strongSelf.textView.contentInset = inset
+//            strongSelf.textView.scrollIndicatorInsets = scrollInset
+//        })
+//
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -39,5 +39,17 @@ class RxCocoaGestureViewController: UIViewController {
         targetView.center = view.center
         
         
+        panGesture.rx.event
+            .subscribe(onNext: { [unowned self] recognizer in
+                guard let target = recognizer.view else { return }
+                
+                let translation = recognizer.translation(in: targetView)
+                
+                target.center.x += translation.x
+                target.center.y += translation.y
+                
+                recognizer.setTranslation(.zero, in: targetView)
+            })
+            .disposed(by: bag)
     }
 }

@@ -51,6 +51,37 @@ class ControlPropertyControlEventRxCocoaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Observable<UIColor>.combineLatest(redSlider.rx.value, greenSlider.rx.value, blueSlider.rx.value) {
+            let redComponent = CGFloat($0) / 255
+            let greenComponent = CGFloat($1) / 255
+            let blueComponent = CGFloat($2) / 255
+            
+            self.updateComponentLabel()
+            return UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1.0)
+        }
+        .bind(to: colorView.rx.backgroundColor)
+        .disposed(by: bag)
         
+//        redSlider.rx.value
+//            .map({ "\(Int($0))" })
+//            .bind(to: redComponentLabel.rx.text)
+//            .disposed(by: bag)
+//
+//        blueSlider.rx.value
+//            .map({ "\(Int($0))" })
+//            .bind(to: blueComponentLabel.rx.text)
+//            .disposed(by: bag)
+//
+//        greenSlider.rx.value
+//            .map({ "\(Int($0))" })
+//            .bind(to: greenComponentLabel.rx.text)
+//            .disposed(by: bag)
+            
+        
+        resetButton.rx.tap
+            .subscribe(onNext: {
+                
+            })
+            .disposed(by: bag)
     }
 }

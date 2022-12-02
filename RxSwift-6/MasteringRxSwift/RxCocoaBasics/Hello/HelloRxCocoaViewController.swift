@@ -37,6 +37,10 @@ class HelloRxCocoaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tapButton.rx.tap
+            .map({ "Hello World" })
+            .bind(to: valueLabel.rx.text)
+            .disposed(by: bag)
         
     }
 }
